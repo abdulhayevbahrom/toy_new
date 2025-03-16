@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import Home from "./routes/home/Home";
 import Footer from "./components/footer/Footer";
 import SinglePage from "./routes/singlepage/SinglePage";
+import NewCart from "./routes/cart/NewCart";
 import { Header } from "./components/header/Header";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<SinglePage />} />
+          <Route path="/cart" element={<NewCart />} />
           {/* <Route path="/auth" element={<AuthTelegram />} />
           <Route path="/cart" element={<NewCart />} />
           <Route path="/cart" element={<Cart />} />

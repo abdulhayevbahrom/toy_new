@@ -25,10 +25,6 @@ export const Header = ({ searchValue, onChangeSearch }) => {
   const [openSubIndex, setOpenSubIndex] = useState(null);
 
   useEffect(() => {
-    // if (!localStorage.getItem("user")) {
-    //   nav("/auth");
-    //   return;
-    // }
 
     async function fetchData() {
       const products = await getProducts();
@@ -39,7 +35,7 @@ export const Header = ({ searchValue, onChangeSearch }) => {
 
     fetchData();
 
-    return () => {};
+    return () => { };
   }, []);
 
   let sidebarData = products
