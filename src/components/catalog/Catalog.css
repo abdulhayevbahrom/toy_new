@@ -1,0 +1,124 @@
+.catalogItem_title {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 20px 0 15px;
+  padding: 8px 17px;
+  width: 100%;
+  background: #1c1c1c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.catalogItem_cards {
+  display: flex;
+  padding: 0 4px;
+  width: 100%;
+  overflow: auto;
+}
+
+.catalogItem_card {
+  border-radius: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 4px 8px;
+  padding: 6px 6px 6px 6px;
+  width: 167px;
+  /* width: 30%; */
+  box-sizing: border-box;
+  background-color: #363636;
+}
+
+.picture {
+  border-radius: 15px 15px 7px 7px;
+  border: none;
+  line-height: 0;
+  margin-bottom: 6px;
+  width: calc((100vw / 3) - 26px);
+  height: calc((100vw / 3) - 26px);
+  max-width: 159px;
+  max-height: 159px;
+  object-fit: cover;
+}
+
+.name {
+  color: #ffffff;
+  font-size: 13px;
+  word-break: break-all;
+  margin-bottom: 5px;
+  padding: 0 5px;
+  width: 100%;
+  overflow: hidden;
+  display: block;
+}
+
+.weight {
+  color: #908f95;
+  font-size: 12px;
+  margin-bottom: 16px;
+  padding: 0 5px;
+  width: 100%;
+}
+
+.price {
+  margin-top: auto;
+  user-select: none;
+  padding: 0 0 1px 0;
+  width: 100%;
+  background-color: #222222;
+  color: #ffffff;
+  box-shadow: none;
+  align-items: center;
+  border-radius: 11px;
+  display: flex;
+  cursor: pointer;
+  flex-wrap: wrap;
+  font-size: 13px;
+  line-height: 0;
+  justify-content: center;
+  height: 34px;
+}
+
+.cic-minus,
+.cic-plus {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 40px;
+}
+
+.cic-minus {
+  box-shadow: inset 55px 0 20px -22px rgba(0, 0, 0, 0);
+  padding-left: 13px;
+}
+
+.cic-plus {
+  box-shadow: inset -55px 0 20px -22px rgba(0, 0, 0, 0);
+  justify-content: flex-end;
+  padding-right: 13px;
+}
+
+.amount {
+  font-weight: 500;
+}
+
+.add {
+  margin-top: auto;
+  user-select: none;
+  padding: 0 0 1px 0;
+  width: 100%;
+  background-color: #222222;
+  color: #ffffff;
+  align-items: center;
+  border-radius: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 13px;
+  line-height: 1.2;
+  height: 34px;
+  justify-content: space-between;
+  overflow: hidden;
+}

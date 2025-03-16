@@ -1,0 +1,44 @@
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import Home from "./routes/home/Home";
+import Footer from "./components/footer/Footer";
+import SinglePage from "./routes/singlepage/SinglePage";
+import { Header } from "./components/header/Header";
+
+function App() {
+  return (
+    <div className="app">
+      <BrowserRouter>
+        <Toaster />
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:id" element={<SinglePage />} />
+          {/* <Route path="/auth" element={<AuthTelegram />} />
+          <Route path="/cart" element={<NewCart />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/order" element={<Order />} />
+          <Route path="/category/:id" element={<Category />} />
+          <Route path="/orderInfo/:id" element={<OrderInfo />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/search" element={<Search />} />
+          <Route
+            path="/hook/payment/success"
+            element={<Catalog paymentStatus={"success"} />}
+          />
+          <Route
+            path="/hook/payment/fail"
+            element={<Catalog paymentStatus={"error"} />}
+          />
+          <Route path="*" element={<Catalog />} /> */}
+        </Routes>
+      </BrowserRouter>
+      <Footer />
+    </div>
+  );
+}
+
+export default App;
