@@ -1,0 +1,21 @@
+.row {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #333;
+  font-size: 18px;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.label {
+  width: 200px;
+  color: #7d7d7d;
+}
+
+.value {
+  text-align: right;
+  color: #d9d9d9;
+}

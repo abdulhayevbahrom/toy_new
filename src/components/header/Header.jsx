@@ -108,7 +108,7 @@ export const Header = ({ searchValue, onChangeSearch }) => {
             className="header_search_icon"
             onClick={() => nav(`/search?q=${searchInput}`)}
           >
-            <img src={searchIcon} />
+            <img src={searchIcon} alt="" />
           </div>
         </div>
 
@@ -120,6 +120,7 @@ export const Header = ({ searchValue, onChangeSearch }) => {
                 onClick={() => {
                   setModal1(!modal1);
                 }}
+                alt=""
               />
             </div>
             <div className={`icon ${modal2 && "activeIcon"}`}>
@@ -128,10 +129,11 @@ export const Header = ({ searchValue, onChangeSearch }) => {
                 onClick={() => {
                   setModal2(!modal2);
                 }}
+                alt=""
               />
             </div>
             <div className="icon">
-              <img src={cartIcon} onClick={() => nav("/cart")} />
+              <img src={cartIcon} onClick={() => nav("/cart")} alt="" />
               {cart.length ? (
                 <div className="card-count-number">{cart.length}</div>
               ) : (
@@ -141,7 +143,11 @@ export const Header = ({ searchValue, onChangeSearch }) => {
           </div>
 
           <div className={`menuIcon ${openSidebar && "activeIcon"}`}>
-            <img src={menuIcon} onClick={() => setOpenSidebar(!openSidebar)} />
+            <img
+              src={menuIcon}
+              alt=""
+              onClick={() => setOpenSidebar(!openSidebar)}
+            />
           </div>
         </div>
       </div>
@@ -153,7 +159,7 @@ export const Header = ({ searchValue, onChangeSearch }) => {
               nav("/orders");
             }}
           >
-            История заказов <img src={arrowIcon} />
+            История заказов <img src={arrowIcon} alt="" />
           </div>
 
           {sidebarData.map((c, i) => (
@@ -170,6 +176,7 @@ export const Header = ({ searchValue, onChangeSearch }) => {
                     transform: openIndex === i ? "rotate(90deg)" : "",
                   }}
                   src={arrowIcon}
+                  alt=""
                 />
               </p>
 
@@ -194,6 +201,7 @@ export const Header = ({ searchValue, onChangeSearch }) => {
                             openSubIndex === `${i}-${j}` ? "rotate(90deg)" : "",
                         }}
                         src={arrowIcon}
+                        alt=""
                       />
                     </p>
 
@@ -205,7 +213,7 @@ export const Header = ({ searchValue, onChangeSearch }) => {
                           key={k}
                         >
                           {model.modelName}
-                          <img src={arrowIcon} />
+                          <img alt="" src={arrowIcon} />
                         </p>
                       ))}
                   </div>

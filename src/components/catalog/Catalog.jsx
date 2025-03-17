@@ -26,16 +26,13 @@ function Catalog() {
       ...item,
       originalIndex: index,
       products: item.products
-        .filter((product) => {
-          if (
+        .filter(
+          (product) =>
             product.price &&
             parseInt(product.price) !== 0 &&
             product.inStock &&
             parseInt(product.inStock) !== 0
-          ) {
-            return product;
-          }
-        })
+        )
         .slice(0, 9),
     }))
     .sort((a, b) => a.categoryName.localeCompare(b.categoryName));

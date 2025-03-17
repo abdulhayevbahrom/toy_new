@@ -62,4 +62,20 @@ const payTBank = async (orderID) => {
   return res;
 };
 
-export { getProducts, newOrder, payTBank, getUser };
+const getSingleProduct = async (id) => {
+  const req = await fetch(
+    `https://shop-api.toyseller.site/api/product?id=${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "WebApp",
+      },
+    }
+  );
+  const res = await req.json();
+
+  return res.data?.length > 0 ? res.data[0] : res.data;
+};
+
+export { getProducts, newOrder, payTBank, getUser, getSingleProduct };
