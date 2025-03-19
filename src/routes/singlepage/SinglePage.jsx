@@ -8,10 +8,15 @@ import { getSingleProduct } from "../../api/index";
 import { FaChevronRight } from "react-icons/fa";
 import { SpecRow } from "./SpecRow";
 import { AgeEnum } from "../../utils/structures";
+import { addToCart } from "../../context/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { FiPlus, FiMinus } from "react-icons/fi";
 
 function SinglePage() {
+  const dispatch = useDispatch();
   const nav = useNavigate();
   const { id } = useParams();
+  const cart = useSelector((state) => state.cart.items);
   const [product, setProduct] = useState(null);
   const [isSizeBtn, setIsSizeBtn] = useState(1);
   const [description, setDescription] = useState(true);
@@ -36,6 +41,13 @@ function SinglePage() {
     }),
     [product]
   );
+
+  const sentToCart = (item) => {
+    dispatch(addToCart(item));
+  };
+
+  const inCart = cart.find((item) => item.id === product?.id);
+  console.log(inCart?.quantity, product?.inBox);
 
   return (
     <div className="container singlepage">
@@ -117,11 +129,19 @@ function SinglePage() {
                 <SpecRow label="Материал" value={product?.material || "-"} />
                 <SpecRow
                   label="Возраст"
-                  value={`от ${AgeEnum[product?.minKidAge]} лет`}
+                  value={
+                    AgeEnum[product?.minKidAge]
+                      ? `от ${AgeEnum[product?.minKidAge]} лет`
+                      : "-"
+                  }
                 />
                 <SpecRow
                   label="Размер"
-                  value={`${product?.shoeSizeLength}мм`}
+                  value={
+                    product?.shoeSizeLength
+                      ? `${product?.shoeSizeLength}мм`
+                      : "-"
+                  }
                 />
               </>
             )}
@@ -140,9 +160,30 @@ function SinglePage() {
           )}
 
           <div className="product_button_block">
+            {cart.find((item) => item.id === product?.id) && (
+              <div className="counter-container">
+                <button className="counter-button" onClick={() => {}}>
+                  <FiMinus />
+                </button>
+                <span className="counter-value">
+                  {parseInt(+inCart.quantity * +product.inBox) %
+                    +product.inPackage !==
+                  0
+                    ? Math.ceil(inCart.quantity * product.inBox)
+                    : parseInt(inCart.quantity * product.inBox)}
+                </span>
+                <button className="counter-button" onClick={() => {}}>
+                  <FiPlus />
+                </button>
+              </div>
+            )}
+
             {+product?.inStock > 0 ? (
-              <button className="add-button">
-                {false ? (
+              <button
+                onClick={() => sentToCart(product)}
+                className="add-button"
+              >
+                {inCart ? (
                   <>
                     В Корзине{" "}
                     <span className="price-span">на {product?.price} р</span>

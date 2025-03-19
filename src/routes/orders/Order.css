@@ -1,0 +1,71 @@
+.orders {
+  width: 100%;
+  padding: 20px;
+}
+
+.card-block-element-title {
+  h3 {
+    font-size: 32px;
+    line-height: 29px;
+    color: #fff;
+  }
+  span {
+    color: #7d7d7d;
+  }
+}
+
+.container-order {
+  margin-top: 25px;
+  background-color: pink;
+  background-color: #363636;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 25px;
+
+  .cart-item-label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    h3 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 38.73px;
+      margin: 0;
+      color: #fff;
+    }
+  }
+}
+
+.info-order {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+}
+
+.dateLabel {
+  font-size: 18px;
+  color: #7d7d7d;
+}
+
+.dateValue {
+  font-size: 18px;
+  color: #d9d9d9;
+}
+
+.price-orders {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 21px;
+  margin-top: 23px !important;
+  color: #fff;
+}
+
+.btn_more {
+  background-color: #565656;
+  border: none;
+  border-radius: 0.25rem;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+}

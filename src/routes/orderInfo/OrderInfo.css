@@ -1,0 +1,16 @@
+.cardInfo {
+  width: 100%;
+  padding: 20px;
+  background-color: pink;
+}
+
+.left {
+  padding: 25px;
+  border-radius: 25px;
+  background-color: #262626;
+  min-height: 582px;
+}
+
+.cardInfo .cart-item-row {
+  border-bottom: 2px solid #1c1c1c;
+}
