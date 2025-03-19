@@ -22,46 +22,6 @@
         line-height: 0;
     }
 
-    .card-block-element {
-        padding: 25px;
-        border-radius: 25px;
-        background-color: #262626;
-
-        .list {
-            min-height: 582px;
-        }
-
-
-
-
-        &.delivery-info {
-
-            .wrapper {
-                display: grid;
-                row-gap: 5px;
-                column-gap: 50px;
-                grid-template-columns: 200px 1fr;
-                grid-template-rows: 22px 22px;
-
-                p {
-                    padding: 0;
-                    line-height: 21px;
-                    margin: 0;
-                    font-size: 18px;
-                    font-weight: 400;
-
-                    color: #7D7D7D;
-                }
-
-                span {
-                    font-size: 18px;
-                    font-weight: 400;
-                    line-height: 21.78px;
-                    color: #D9D9D9;
-                }
-            }
-        }
-    }
 
 
     .card-block-list {
@@ -158,6 +118,44 @@
     }
 }
 
+.card-block-element {
+    padding: 25px;
+    border-radius: 25px;
+    background-color: #262626;
+}
+
+.card-block-element>h3 {
+    color: #fff;
+    line-height: 32px;
+}
+
+.delivery-info .wrapper {
+    display: grid;
+    row-gap: 5px;
+    column-gap: 50px;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 22px 22px;
+}
+
+.delivery-info p {
+    padding: 0;
+    line-height: 21px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+
+    color: #7D7D7D;
+}
+
+.delivery-info span {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21.78px;
+    color: #D9D9D9;
+}
+
+
+
 
 .title-block {
     display: flex;
@@ -200,25 +198,73 @@
         height: unset;
         margin: unset;
         padding: 16px;
+    }
+}
 
-        .order-choise-btn-label {
-            padding-bottom: 10px;
-        }
+.order-form-select-group .order-choise-btn-label {
+    position: relative;
+    padding-bottom: 10px;
+}
 
-        .order-form-select-group {
-            background-color: transparent;
+.order-form-select-group .order-choise-btn-label:first-child .choise-btn {
+    background: url(/src/img/car.svg) no-repeat 0 / 40px 40px, url(/src/img/chevron-right.svg) no-repeat calc(100% - 16px) / 15px 15px;
+    border-radius: 10px 10px 0 0;
+}
 
+.order-form-select-group .choise-btn:not(.choise-btn option) {
+    padding-left: 55px;
+    padding-right: 16px;
+}
+
+.order-form-select-group .order-choise-btn-label .choise-btn {
+    align-items: center;
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 14px;
+    height: 45px;
+    margin-bottom: 0;
+    outline: none;
+    padding: 5px 20px;
+    position: relative;
+    transition: all .2s;
+    -webkit-user-select: none;
+    user-select: none;
+    width: 100%;
+}
+
+.container-order-data .order-form-select-group .order-choise-btn-label:last-child .choise-btn {
+    background: url(/src/img/payment.svg) no-repeat 0 / 40px 40px, url(/src/img/chevron-right.svg) no-repeat calc(100% - 16px) / 15px 15px;
+    border-radius: 0 0 10px 10px;
+}
+
+.card-block-element {
+    &.container-order-data {
+        & .order-form-select-group {
             .choise-btn {
                 font-size: 18px;
                 font-weight: 500;
-
-                option {
-                    background-color: #363636;
-                }
-
             }
         }
     }
+}
+
+
+.container-order-data .order-form-select-group {
+    background-color: transparent;
+}
+
+.order-form-select-group .choise-btn {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.order-form-select-group option {
+    background-color: #363636;
 }
 
 
@@ -235,12 +281,7 @@
         .form-group-section {
             padding-top: 22px;
 
-            .form-group {
-                &::after {
-                    width: 100%;
-                    background-color: #7D7D7D;
-                }
-            }
+
 
             .formInput {
                 padding-left: 0;
@@ -323,6 +364,28 @@
             margin-top: 16px;
             text-align: center;
             padding-left: 0;
+            color: #fff;
         }
     }
+}
+
+.form-group {
+    width: 100%;
+    background-color: #7D7D7D;
+
+}
+
+.form-group .formInput {
+    padding-left: 0;
+    font-size: 18px;
+    font-weight: 400;
+    height: 32px;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #7D7D7D !important;
+}
+
+.formInput:last-child {
+    border-bottom: none;
 }
