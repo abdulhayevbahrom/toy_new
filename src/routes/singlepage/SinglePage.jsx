@@ -8,7 +8,11 @@ import { getSingleProduct } from "../../api/index";
 import { FaChevronRight } from "react-icons/fa";
 import { SpecRow } from "./SpecRow";
 import { AgeEnum } from "../../utils/structures";
-import { addToCart } from "../../context/cartSlice";
+import {
+  addToCart,
+  incrementQuantity,
+  decrementQuantity,
+} from "../../context/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { FiPlus, FiMinus } from "react-icons/fi";
 
@@ -28,13 +32,12 @@ function SinglePage() {
     };
     getById();
   }, [id]);
-  console.log("product", product);
+
   const settings = useMemo(
     () => ({
-      dots: product?.otherPhotos?.length > 0 ? true : false,
-      infinite: product?.otherPhotos?.length > 0 ? true : false,
-      arrows: product?.otherPhotos?.length > 0 ? true : false,
-      // arrows: true,
+      dots: product?.otherPhotos?.length > 0,
+      infinite: product?.otherPhotos?.length > 0,
+      arrows: product?.otherPhotos?.length > 0,
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
@@ -47,7 +50,43 @@ function SinglePage() {
   };
 
   const inCart = cart.find((item) => item.id === product?.id);
-  console.log(inCart?.quantity, product?.inBox);
+
+  const getDisplayQuantity = (inCart, product) => {
+    if (!inCart || !product) return 0;
+    const boxQuantity = Number(inCart.quantity) * Number(product.inBox);
+    const packageSize = Number(product.inPackage);
+    return packageSize && boxQuantity % packageSize !== 0
+      ? Math.ceil(boxQuantity)
+      : Math.floor(boxQuantity);
+  };
+
+  const handleIncrement = () => {
+    dispatch(
+      incrementQuantity({
+        productId: product.id,
+        inBox: product.inBox,
+        inPackage: product.inPackage,
+        inStock: product.inStock,
+        inTheBox: product.inTheBox,
+      })
+    );
+  };
+
+  const handleDecrement = () => {
+    dispatch(
+      decrementQuantity({
+        productId: product.id,
+        inBox: product.inBox,
+        inPackage: product.inPackage,
+        inTheBox: product.inTheBox,
+      })
+    );
+  };
+
+  const displayQuantity = useMemo(
+    () => getDisplayQuantity(inCart, product),
+    [inCart?.quantity, product?.inBox, product?.inPackage]
+  );
 
   return (
     <div className="container singlepage">
@@ -64,13 +103,11 @@ function SinglePage() {
           <Slider {...settings}>
             <div>
               <img
-                // src={`https://shop-api.toyseller.site/api/image/99/1711472801_KYC-58.jpg`}
                 src={`https://shop-api.toyseller.site/api/image/${product?.id}/${product?.photo}`}
                 alt={`image-${product?.id}`}
                 className="image"
               />
             </div>
-
             {product?.otherPhotos
               ?.filter((item) => item !== "")
               .map((slide, i) => (
@@ -98,7 +135,7 @@ function SinglePage() {
             className="shoesSizes"
           >
             <h3 className="sub-title">Размер</h3>
-            <div className={`size-block`} onClick={() => setIsSizeBtn(1)}>
+            <div className="size-block" onClick={() => setIsSizeBtn(1)}>
               <span className="size-letter">{product?.shoeSizeRu}</span>
               <div className="size-description"></div>
             </div>
@@ -120,7 +157,7 @@ function SinglePage() {
           <div className="description-block">
             {description && (
               <p className="description">
-                {product?.description ? product?.description : "Описания нет"}
+                {product?.description ? product.description : "Описания нет"}
               </p>
             )}
             {!description && (
@@ -131,7 +168,7 @@ function SinglePage() {
                   label="Возраст"
                   value={
                     AgeEnum[product?.minKidAge]
-                      ? `от ${AgeEnum[product?.minKidAge]} лет`
+                      ? `от ${AgeEnum[product.minKidAge]} лет`
                       : "-"
                   }
                 />
@@ -139,7 +176,7 @@ function SinglePage() {
                   label="Размер"
                   value={
                     product?.shoeSizeLength
-                      ? `${product?.shoeSizeLength}мм`
+                      ? `${product.shoeSizeLength}мм`
                       : "-"
                   }
                 />
@@ -160,19 +197,13 @@ function SinglePage() {
           )}
 
           <div className="product_button_block">
-            {cart.find((item) => item.id === product?.id) && (
+            {inCart && (
               <div className="counter-container">
-                <button className="counter-button" onClick={() => {}}>
+                <button className="counter-button" onClick={handleDecrement}>
                   <FiMinus />
                 </button>
-                <span className="counter-value">
-                  {parseInt(+inCart.quantity * +product.inBox) %
-                    +product.inPackage !==
-                  0
-                    ? Math.ceil(inCart.quantity * product.inBox)
-                    : parseInt(inCart.quantity * product.inBox)}
-                </span>
-                <button className="counter-button" onClick={() => {}}>
+                <span className="counter-value">{displayQuantity}</span>
+                <button className="counter-button" onClick={handleIncrement}>
                   <FiPlus />
                 </button>
               </div>
@@ -186,7 +217,9 @@ function SinglePage() {
                 {inCart ? (
                   <>
                     В Корзине{" "}
-                    <span className="price-span">на {product?.price} р</span>
+                    <span className="price-span">
+                      на {displayQuantity * product?.price} р
+                    </span>
                   </>
                 ) : (
                   "Добавить"
