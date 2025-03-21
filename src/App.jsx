@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Home from "./routes/home/Home";
 import Footer from "./components/footer/Footer";
@@ -8,21 +8,41 @@ import NewCart from "./routes/cart/NewCart";
 import { Header } from "./components/header/Header";
 import Order from "./routes/orders/Order";
 import OrderInfo from "./routes/orderInfo/OrderInfo";
+import AuthTelegram from "./auth/Auth";
 
 function App() {
+  const location = useLocation();
+  const isAuthPage = location.pathname === "/auth";
+
+  useEffect(() => {
+    if (localStorage.getItem("user") && isAuthPage) {
+      window.location.href = "/auth";
+    }
+  }, [isAuthPage]);
+
   return (
     <div className="app">
-      <BrowserRouter>
-        <Toaster />
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:id" element={<SinglePage />} />
-          <Route path="/cart" element={<NewCart />} />
-          <Route path="/orders" element={<Order />} />
-          <Route path="/orderInfo/:id" element={<OrderInfo />} />
+      <Toaster />
+      {!isAuthPage && <Header />}
+      <Routes>
+        <Route path="/auth" element={<AuthTelegram />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<SinglePage />} />
+        <Route path="/cart" element={<NewCart />} />
+        <Route path="/orders" element={<Order />} />
+        <Route path="/orderInfo/:id" element={<OrderInfo />} />
+      </Routes>
+      {!isAuthPage && <Footer />}
+    </div>
+  );
+}
 
-          {/* <Route path="/auth" element={<AuthTelegram />} />
+export default App;
+
+
+
+
+{/* <Route path="/auth" element={<AuthTelegram />} />
           <Route path="/cart" element={<NewCart />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
@@ -40,12 +60,5 @@ function App() {
             path="/hook/payment/fail"
             element={<Catalog paymentStatus={"error"} />}
           />
-          <Route path="*" element={<Catalog />} /> */}
-        </Routes>
-      </BrowserRouter>
-      <Footer />
-    </div>
-  );
-}
-
-export default App;
+          <Route path="*" element={<Catalog />} /> 
+*/}

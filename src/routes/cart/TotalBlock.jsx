@@ -68,8 +68,8 @@ export const TotalBlock = ({ cart, setCart, deliveryData, paymentData }) => {
         paymentData == "3"
           ? "Наличными"
           : paymentData == "4"
-          ? "Картой"
-          : "Счет",
+            ? "Картой"
+            : "Счет",
       products: cart.map((product) => ({
         id: product.id,
         name: product.article,
