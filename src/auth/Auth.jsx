@@ -56,7 +56,7 @@ const AuthTelegram = () => {
           </p>
         </main>
 
-        <footer className="footer-auth ">
+        <footer className="footer-auth">
           <p>
             Работает на платформе
             <a href="https://spruton.ru/" target="_blank" rel="noreferrer">

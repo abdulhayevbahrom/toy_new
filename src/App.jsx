@@ -15,7 +15,7 @@ function App() {
   const isAuthPage = location.pathname === "/auth";
 
   useEffect(() => {
-    if (localStorage.getItem("user") && isAuthPage) {
+    if (!localStorage.getItem("user") && !isAuthPage) {
       window.location.href = "/auth";
     }
   }, [isAuthPage]);
