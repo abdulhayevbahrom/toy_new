@@ -13,33 +13,46 @@ import CategoryProducts from "./routes/categoryProducts/CategoryProducts";
 function App() {
   return (
     <div className="app">
-      <BrowserRouter>
-        <Toaster />
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:id" element={<SinglePage />} />
-          <Route path="/cart" element={<NewCart />} />
-          <Route path="/orders" element={<Order />} />
-          <Route path="/orderInfo/:id" element={<OrderInfo />} />
-          <Route path="/category/:id" element={<CategoryProducts />} />
-          <Route path="/search" element={<CategoryProducts />} />
-          {/* <Route path="/auth" element={<AuthTelegram />} />>
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/search" element={<Search />} />
-          <Route
+      <Toaster />
+      <Header />
+      <Routes>
+        {/* Asosiy sahifa */}
+        <Route path="/" element={<Home />} />
+
+        {/* Mahsulotning yakkalik sahifasi */}
+        <Route path="/product/:id" element={<SinglePage />} />
+
+        {/* Savatcha sahifasi */}
+        <Route path="/cart" element={<NewCart />} />
+
+        {/* Buyurtmalar sahifasi */}
+        <Route path="/orders" element={<Order />} />
+
+        {/* Buyurtma haqida ma'lumot sahifasi */}
+        <Route path="/orderInfo/:id" element={<OrderInfo />} />
+
+        {/* Kategoriya bo‘yicha mahsulotlar sahifasi */}
+        <Route path="/category/:id" element={<CategoryProducts />} />
+
+        {/* Qidiruv natijalari sahifasi */}
+        <Route path="/search" element={<CategoryProducts />} />
+
+        {/* Quyida sharh sifatida qoldirilgan yo‘nalishlar */}
+        {/* <Route path="/auth" element={<AuthTelegram />} /> */}
+        {/* <Route path="/contact" element={<Contact />} /> */}
+        {/* <Route path="/terms" element={<Terms />} /> */}
+        {/* <Route path="/orders" element={<Orders />} /> */}
+        {/* <Route path="/search" element={<Search />} /> */}
+        {/* <Route
             path="/hook/payment/success"
             element={<Catalog paymentStatus={"success"} />}
-          />
-          <Route
+          /> */}
+        {/* <Route
             path="/hook/payment/fail"
             element={<Catalog paymentStatus={"error"} />}
-          />
-          <Route path="*" element={<Catalog />} /> */}
-        </Routes>
-      </BrowserRouter>
+          /> */}
+        {/* <Route path="*" element={<Catalog />} /> */}
+      </Routes>
       <Footer />
     </div>
   );
