@@ -119,6 +119,10 @@
   font-size: 13px;
   line-height: 1.2;
   height: 34px;
-  justify-content: space-between;
+  justify-content: space-around;
   overflow: hidden;
+
+  svg {
+    font-size: 19px;
+  }
 }

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"; // useSelector qo'shildi
 import { newOrder, payTBank, getUser } from "../../api";
 import formatNumberWithSpaces from "../../utils/numberFormat";
 import toast from "react-hot-toast";
 import "./Cart.css";
+import { setCart, setUserInfo } from "../../context/cartSlice"; // setUserInfo import qilindi
 
-export const TotalBlock = ({ cart, setCart, deliveryData, paymentData }) => {
+export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
   const nav = useNavigate();
-  const [userInfo, setUserInfo] = useState([]);
   const dispatch = useDispatch();
+  const reduxUserInfo = useSelector((state) => state.cart.userInfo); // Redux'dan userInfo olish
   const [data, setData] = useState({
     name: "",
     phone: "",
@@ -22,22 +23,31 @@ export const TotalBlock = ({ cart, setCart, deliveryData, paymentData }) => {
   useEffect(() => {
     const fetchData = async () => {
       const user = await getUser();
-      setUserInfo(user);
+      // API dan kelgan ma'lumotlar bilan Redux state'ni yangilash
+      dispatch(
+        setUserInfo({
+          name: user?.name || "",
+          phone: user?.phone || "",
+          address: user?.address || "",
+          company: user?.company || "",
+          inn: user?.inn || "",
+        })
+      );
     };
-
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
+    // Redux state'dan local form state'ni yangilash
     setData({
-      name: userInfo?.name,
-      phone: userInfo?.phone,
-      address: userInfo?.address,
+      name: reduxUserInfo?.name || "",
+      phone: reduxUserInfo?.phone || "",
+      address: reduxUserInfo?.address || "",
       comment: "",
-      companyName: userInfo?.company,
-      inn: userInfo?.inn,
+      companyName: reduxUserInfo?.company || "",
+      inn: reduxUserInfo?.inn || "",
     });
-  }, [userInfo]);
+  }, [reduxUserInfo]);
 
   const totalCount = cart.reduce((acc, product) => {
     acc +=
@@ -61,13 +71,14 @@ export const TotalBlock = ({ cart, setCart, deliveryData, paymentData }) => {
     window.Telegram.WebApp.MainButton.offClick(createOrder);
     if (!canOrder) return;
     setCanOrder(false);
+
     const order = {
       ...data,
-      delivery: deliveryData == "1" ? "Самовывоз" : "Курьером",
+      delivery: deliveryData === "1" ? "Самовывоз" : "Курьером",
       payBy:
-        paymentData == "3"
+        paymentData === "3"
           ? "Наличными"
-          : paymentData == "4"
+          : paymentData === "4"
           ? "Картой"
           : "Счет",
       products: cart.map((product) => ({
@@ -79,36 +90,46 @@ export const TotalBlock = ({ cart, setCart, deliveryData, paymentData }) => {
       })),
     };
 
-    const orderData = await newOrder(order);
+    try {
+      const orderData = await newOrder(order);
 
-    if (orderData && paymentData !== "3") {
-      try {
+      if (orderData && paymentData !== "3") {
         const bankResponse = await payTBank(orderData.orderID);
         console.log(bankResponse, "bankResponse");
-
         window.location.href = bankResponse?.url;
-      } catch (error) {
-        toast.error("Ошибка оплаты");
+      } else {
+        localStorage.removeItem("cart");
       }
-    } else {
-      localStorage.removeItem("cart");
+
+      dispatch(setCart([])); // Savatni tozalash
+      toast.success(
+        "Заказ оформлен, наш менеджер в ближайшее время с Вами свяжется"
+      );
+      setTimeout(() => {
+        nav("/");
+        setData({
+          name: "",
+          phone: "",
+          address: "",
+          comment: "",
+          companyName: "",
+          inn: "",
+        });
+        dispatch(
+          setUserInfo({
+            // Redux userInfo'ni tozalash
+            name: "",
+            phone: "",
+            address: "",
+            company: "",
+            inn: "",
+          })
+        );
+      }, 3000);
+    } catch (error) {
+      toast.error("Ошибка при оформлении заказа");
+      setCanOrder(true); // Xato yuz bersa, tugmani qayta faollashtirish
     }
-    dispatch(setCart([])); // Clear cart after order is placed
-    toast.success(
-      "Заказ оформлен, наш менеджер в ближайшее время с Вами свяжется"
-    );
-    setTimeout(() => {
-      nav("/");
-      setData({
-        name: "",
-        phone: "",
-        address: "",
-        comment: "",
-        companyName: "",
-        inn: "",
-      });
-      dispatch(setUserInfo({})); // Optionally, reset user info if needed
-    }, 3000);
   };
 
   return (
@@ -120,12 +141,7 @@ export const TotalBlock = ({ cart, setCart, deliveryData, paymentData }) => {
             type="text"
             className="formInput"
             value={data.name}
-            onChange={(e) => {
-              setData({
-                ...data,
-                name: e.target.value,
-              });
-            }}
+            onChange={(e) => setData({ ...data, name: e.target.value })}
             placeholder="ФИО"
           />
         </div>
@@ -135,12 +151,7 @@ export const TotalBlock = ({ cart, setCart, deliveryData, paymentData }) => {
             className="formInput"
             placeholder="Название компании"
             value={data.companyName}
-            onChange={(e) => {
-              setData({
-                ...data,
-                companyName: e.target.value,
-              });
-            }}
+            onChange={(e) => setData({ ...data, companyName: e.target.value })}
           />
         </div>
         <div className="form-group">
@@ -149,12 +160,7 @@ export const TotalBlock = ({ cart, setCart, deliveryData, paymentData }) => {
             className="formInput"
             placeholder="ИНН"
             value={data.inn}
-            onChange={(e) => {
-              setData({
-                ...data,
-                inn: e.target.value,
-              });
-            }}
+            onChange={(e) => setData({ ...data, inn: e.target.value })}
           />
         </div>
         <div className="form-group">
@@ -163,27 +169,17 @@ export const TotalBlock = ({ cart, setCart, deliveryData, paymentData }) => {
             className="formInput"
             placeholder="Телефон"
             value={data.phone}
-            onChange={(e) => {
-              setData({
-                ...data,
-                phone: e.target.value,
-              });
-            }}
+            onChange={(e) => setData({ ...data, phone: e.target.value })}
           />
         </div>
-        {deliveryData == "2" && (
+        {deliveryData === "2" && (
           <div className="form-group">
             <input
               type="text"
               className="formInput"
               placeholder="Адрес доставки"
               value={data.address}
-              onChange={(e) => {
-                setData({
-                  ...data,
-                  address: e.target.value,
-                });
-              }}
+              onChange={(e) => setData({ ...data, address: e.target.value })}
             />
           </div>
         )}
@@ -192,13 +188,8 @@ export const TotalBlock = ({ cart, setCart, deliveryData, paymentData }) => {
             type="text"
             className="formInput"
             placeholder="Комментарий"
-            onChange={(e) => {
-              setData({
-                ...data,
-                comment: e.target.value,
-              });
-            }}
             value={data.comment}
+            onChange={(e) => setData({ ...data, comment: e.target.value })}
           />
         </div>
       </div>

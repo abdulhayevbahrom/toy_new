@@ -8,6 +8,7 @@ import NewCart from "./routes/cart/NewCart";
 import { Header } from "./components/header/Header";
 import Order from "./routes/orders/Order";
 import OrderInfo from "./routes/orderInfo/OrderInfo";
+import CategoryProducts from "./routes/categoryProducts/CategoryProducts";
 
 function App() {
   return (
@@ -21,13 +22,9 @@ function App() {
           <Route path="/cart" element={<NewCart />} />
           <Route path="/orders" element={<Order />} />
           <Route path="/orderInfo/:id" element={<OrderInfo />} />
-
-          {/* <Route path="/auth" element={<AuthTelegram />} />
-          <Route path="/cart" element={<NewCart />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/order" element={<Order />} />
-          <Route path="/category/:id" element={<Category />} />
-          <Route path="/orderInfo/:id" element={<OrderInfo />} />
+          <Route path="/category/:id" element={<CategoryProducts />} />
+          <Route path="/search" element={<CategoryProducts />} />
+          {/* <Route path="/auth" element={<AuthTelegram />} />>
           <Route path="/contact" element={<Contact />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/orders" element={<Orders />} />
