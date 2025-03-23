@@ -211,7 +211,7 @@ function SinglePage() {
 
             {+product?.inStock > 0 ? (
               <button
-                onClick={() => sentToCart(product)}
+                onClick={() => (inCart ? nav("/cart") : sentToCart(product))}
                 className="add-button"
               >
                 {inCart ? (
