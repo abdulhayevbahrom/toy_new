@@ -40,10 +40,12 @@
     align-items: center;
     justify-content: center;
   }
+
   .header__right {
     display: flex;
     align-items: center;
   }
+
   .bottomBar {
     display: flex;
     justify-content: space-between;
@@ -76,6 +78,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative !important;
   }
 }
 
@@ -201,6 +204,24 @@
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
+}
+
+.card-count-number {
+  aspect-ratio: 1;
+  background-color: #1fb73a;
+  color: #fff;
+  font-size: 14px;
+  min-height: 19px;
+  border-radius: 50% !important;
+  min-width: 19px;
+  padding: 4px;
+  position: absolute;
+  right: -5px;
+  text-align: center;
+  top: -5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (min-width: 320px) and (max-width: 480px) {

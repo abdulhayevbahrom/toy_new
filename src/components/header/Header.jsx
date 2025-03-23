@@ -3,7 +3,6 @@ import { getProducts } from "../../api";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux"; // Redux uchun import
 import { setSearchQuery } from "../../context/searchSlice"; // Action import
-
 import menuIcon from "../../img/menu.svg";
 import logo from "../../img/logo.png";
 import arrowIcon from "../../img/arrow-right.svg";
@@ -88,7 +87,8 @@ export const Header = () => {
       ).map((obj) => ({ ...obj, data: [...obj.data] })),
     }));
 
-  const cart = []; // Assuming this will be populated elsewhere
+  const cart = useSelector((state) => state.cart.items);
+
 
   const closeModals = () => {
     if (openSidebar) setOpenSidebar(false);
@@ -143,11 +143,10 @@ export const Header = () => {
             </div>
             <div className="icon">
               <img src={cartIcon} onClick={() => nav("/cart")} alt="" />
-              {cart.length ? (
-                <div className="card-count-number">{cart.length}</div>
-              ) : (
-                ""
-              )}
+              {cart?.length > 0 &&
+                <div className="card-count-number">
+                  <p>{cart?.length}</p></div>
+              }
             </div>
           </div>
 
@@ -157,6 +156,7 @@ export const Header = () => {
               alt=""
               onClick={() => setOpenSidebar(!openSidebar)}
             />
+
           </div>
         </div>
       </div>
