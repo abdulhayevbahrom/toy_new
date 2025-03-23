@@ -35,6 +35,7 @@ function App() {
         <Route path="/auth" element={<AuthTelegram />} />
       </Routes>
       {!isAuthPage && <Footer />}
+      {/* push uhcun */}
     </div>
   );
 }
