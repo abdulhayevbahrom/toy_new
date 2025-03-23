@@ -177,7 +177,27 @@ function SinglePage() {
                   value={
                     product?.shoeSizeLength
                       ? `${product.shoeSizeLength}мм`
-                      : "-"
+                      : "-"```javascript
+// Add a loading state to handle the initial data fetch
+const [isLoading, setIsLoading] = useState(true);
+
+// Update the useEffect hook to set the loading state
+useEffect(() => {
+  const getById = async () => {
+    const data = await getSingleProduct(id);
+    setProduct(data);
+    setIsLoading(false);
+  };
+  getById();
+}, [id]);
+
+// Add a conditional statement to render a loading message
+if (isLoading) {
+  return <div>Loading...</div>;
+}
+
+// Rest of the code remains the same
+```
                   }
                 />
               </>
@@ -246,3 +266,5 @@ function SinglePage() {
 }
 
 export default SinglePage;
+
+

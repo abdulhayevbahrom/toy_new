@@ -79,8 +79,8 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
         paymentData === "3"
           ? "Наличными"
           : paymentData === "4"
-          ? "Картой"
-          : "Счет",
+            ? "Картой"
+            : "Счет",
       products: cart.map((product) => ({
         id: product.id,
         name: product.article,
@@ -190,6 +190,7 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
             placeholder="Комментарий"
             value={data.comment}
             onChange={(e) => setData({ ...data, comment: e.target.value })}
+            style={{ borderBottom: "1px solid #7d7d7d00 !important" }}
           />
         </div>
       </div>

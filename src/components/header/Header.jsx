@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getProducts } from "../../api";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux"; // Redux uchun import
+import { setSearchQuery } from "../../context/searchSlice"; // Action import
 
 import menuIcon from "../../img/menu.svg";
 import logo from "../../img/logo.png";
 import arrowIcon from "../../img/arrow-right.svg";
-
 import phoneIcon from "../../img/phone-call.svg";
 import searchIcon from "../../img/search.svg";
 import caseIcon from "../../img/briefcase.svg";
@@ -13,30 +14,50 @@ import cartIcon from "../../img/shopping-cart.svg";
 
 import "./Header.css";
 
-export const Header = ({ searchValue, onChangeSearch }) => {
+export const Header = () => {
   const nav = useNavigate();
+  const dispatch = useDispatch();
+  const dropdownRef = useRef(null);
+
+  // Redux-dan searchQuery ni olish
+  const searchValue = useSelector((state) => state.search.searchQuery);
 
   const [products, setProducts] = useState([]);
   const [openSidebar, setOpenSidebar] = useState(false);
   const [modal1, setModal1] = useState(false);
   const [modal2, setModal2] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
   const [openIndex, setOpenIndex] = useState(null);
   const [openSubIndex, setOpenSubIndex] = useState(null);
 
   useEffect(() => {
-
     async function fetchData() {
       const products = await getProducts();
       setProducts(products);
-      // const user = await getUser();
-      // localStorage.setItem("user", JSON.stringify(user));
     }
 
     fetchData();
-
     return () => { };
   }, []);
+
+
+
+  // Tashqi clickni ushlash uchun useEffect
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Agar click dropdown ichida bo'lmasa va sidebar ochiq bo'lsa
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target) && openSidebar) {
+        setOpenSidebar(false);
+      }
+    };
+
+    // Documentga click event listener qo'shamiz
+    document.addEventListener('mousedown', handleClickOutside);
+
+    // Component unmount bo'lganda listenerni o'chiramiz
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openSidebar]); // openSidebar o'zgarganda qayta ishlaydi
 
   let sidebarData = products
     .sort((a, b) => {
@@ -58,27 +79,26 @@ export const Header = ({ searchValue, onChangeSearch }) => {
             if (item.modelName) {
               acc[item.subCategoryName].data.add({
                 modelName: item.modelName,
-                index: index, // Original massivdagi indeksni saqlash
+                index: index,
               });
             }
           }
           return acc;
         }, {})
-      ).map((obj) => ({ ...obj, data: [...obj.data] })), // Set ni array ga o'girish
+      ).map((obj) => ({ ...obj, data: [...obj.data] })),
     }));
 
-  const cart = [];
+  const cart = []; // Assuming this will be populated elsewhere
 
   const closeModals = () => {
-    if (openSidebar) {
-      setOpenSidebar(false);
-    }
-    if (modal1) {
-      setModal1(false);
-    }
-    if (modal2) {
-      setModal2(false);
-    }
+    if (openSidebar) setOpenSidebar(false);
+    if (modal1) setModal1(false);
+    if (modal2) setModal2(false);
+  };
+
+  const handleSearchChange = (e) => {
+    // Redux store'ga searchQuery ni yangilash
+    dispatch(setSearchQuery(e.target.value));
   };
 
   return (
@@ -94,15 +114,12 @@ export const Header = ({ searchValue, onChangeSearch }) => {
         <div className="search">
           <input
             placeholder="Поиск..."
-            value={searchValue || searchInput}
-            onChange={(e) => {
-              onChangeSearch?.(e.target.value);
-              setSearchInput(e.target.value);
-            }}
+            value={searchValue} // Redux-dan kelgan qiymat
+            onChange={handleSearchChange} // Redux-ga yangi qiymatni jo'natish
           />
           <div
             className="header_search_icon"
-            onClick={() => nav(`/search?q=${searchInput}`)}
+            onClick={() => nav(`/search?q=${searchValue}`)}
           >
             <img src={searchIcon} alt="" />
           </div>
@@ -113,18 +130,14 @@ export const Header = ({ searchValue, onChangeSearch }) => {
             <div className={`icon ${modal1 && "activeIcon"}`}>
               <img
                 src={phoneIcon}
-                onClick={() => {
-                  setModal1(!modal1);
-                }}
+                onClick={() => setModal1(!modal1)}
                 alt=""
               />
             </div>
             <div className={`icon ${modal2 && "activeIcon"}`}>
               <img
                 src={caseIcon}
-                onClick={() => {
-                  setModal2(!modal2);
-                }}
+                onClick={() => setModal2(!modal2)}
                 alt=""
               />
             </div>
@@ -147,14 +160,10 @@ export const Header = ({ searchValue, onChangeSearch }) => {
           </div>
         </div>
       </div>
+
       {openSidebar ? (
-        <div className="dropdown">
-          <div
-            className="item"
-            onClick={() => {
-              nav("/orders");
-            }}
-          >
+        <div className="dropdown" ref={dropdownRef}>
+          <div className="item" onClick={() => nav("/orders")}>
             История заказов <img src={arrowIcon} alt="" />
           </div>
 
@@ -162,9 +171,7 @@ export const Header = ({ searchValue, onChangeSearch }) => {
             <div className="menu_item" key={i}>
               <p
                 className="category"
-                onClick={() => {
-                  setOpenIndex(openIndex === i ? null : i);
-                }}
+                onClick={() => setOpenIndex(openIndex === i ? null : i)}
               >
                 {c.a}
                 <img
@@ -184,9 +191,7 @@ export const Header = ({ searchValue, onChangeSearch }) => {
                         setOpenSubIndex(
                           openSubIndex === `${i}-${j}` ? null : `${i}-${j}`
                         );
-                        if (!b?.data?.length) {
-                          nav("/category/" + i);
-                        }
+                        if (!b?.data?.length) nav("/category/" + i);
                       }}
                       className="subcategory"
                     >
@@ -225,10 +230,10 @@ export const Header = ({ searchValue, onChangeSearch }) => {
         <div className="modal1" onClick={() => setModal1(false)}>
           <div className="dropdown2">
             <span>По коммерческим вопросам:</span>
-            <a href={"tel:+79784514771"}>+7(978)45-14-771</a>
+            <a href="tel:+79784514771">+7(978)45-14-771</a>
             <a href="mailto:partners@octobyte.ru">partners@octobyte.ru</a>
             <span>По техническим вопросам: </span>
-            <a href={"tel:+79786121068"}>+7(978)61-21-068</a>
+            <a href="tel:+79786121068">+7(978)61-21-068</a>
             <a href="mailto:support@octobyte.ru">support@spruton.shop</a>
             <span className="bold">
               Мы всегда готовы ответить на ваши вопросы.
@@ -311,3 +316,5 @@ export const Header = ({ searchValue, onChangeSearch }) => {
     </>
   );
 };
+
+

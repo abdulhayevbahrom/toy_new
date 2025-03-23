@@ -111,3 +111,9 @@ export const {
   decrementQuantity,
 } = cartSlice.actions;
 export default cartSlice.reducer;
+
+
+
+
+
+

@@ -3,6 +3,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 38px 0;
+  padding: 0 15px;
 }
 
 .left {
@@ -17,6 +19,7 @@
   display: flex;
   gap: 12px;
   align-items: center;
+  cursor: pointer !important;
 }
 
 .right {
@@ -31,7 +34,7 @@
   gap: 3px;
   justify-content: center;
   background-color: #fff;
-  color: #363636;
+  color: #363636 !important;
   border: none;
   border-radius: 10px;
   width: 100%;
@@ -40,13 +43,13 @@
   cursor: pointer;
 }
 
-.form-sort button {
+.right .form-sort button {
   display: flex;
   align-items: center;
   gap: 3px;
   justify-content: center;
   background-color: #fff;
-  color: #fff;
+  color: #333 !important;
   border: none;
   width: 100%;
   border-radius: 10px;
@@ -116,7 +119,9 @@
   justify-content: center;
   align-items: center;
   z-index: 98;
-} /* FilterModal.css */
+}
+
+/* FilterModal.css */
 
 /* Modal konteyneri */
 .modal-container {
@@ -136,22 +141,28 @@
   position: fixed;
   z-index: 10;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Qorong‘u fon uchun mos opacity */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Qorong‘u fon uchun mos opacity */
 }
 
 /* Modal kontenti */
 .modal-content {
   position: relative;
   width: 100%;
-  max-width: 600px; /* Kichik ekranlar uchun moslashuvchan */
+  max-width: 600px;
+  /* Kichik ekranlar uchun moslashuvchan */
   height: auto;
-  max-height: 90vh; /* Ekran balandligining 90% gacha */
-  background-color: #ffffff; /* Oq fon (rasmdagi kabi) */
+  max-height: 90vh;
+  /* Ekran balandligining 90% gacha */
+  background-color: #ffffff;
+  /* Oq fon (rasmdagi kabi) */
   padding: 20px;
   border-radius: 10px;
   z-index: 20;
-  overflow-y: auto; /* Agar kontent ko‘p bo‘lsa scroll */
-  color: #000000; /* Matn rangi qora */
+  overflow-y: auto;
+  /* Agar kontent ko‘p bo‘lsa scroll */
+  color: #000000;
+  /* Matn rangi qora */
 }
 
 @media (max-width: 768px) {
@@ -173,7 +184,8 @@
 
 /* Yopish tugmasi */
 .close-button {
-  background-color: #e3e2e2; /* Kulrang fon */
+  background-color: #e3e2e2;
+  /* Kulrang fon */
   border-radius: 50%;
   padding: 8px;
   border: none;
@@ -186,7 +198,8 @@
 .close-button svg {
   width: 24px;
   height: 24px;
-  fill: #363636; /* Qora rangli ikonka */
+  fill: #363636;
+  /* Qora rangli ikonka */
 }
 
 .modal-header_h3 {
@@ -205,18 +218,21 @@
 .accordion-header label {
   font-size: 14px;
   font-weight: 600;
-  color: #000000; /* Qora matn */
+  color: #000000;
+  /* Qora matn */
 }
 
 .accordion-header svg {
   width: 24px;
   height: 24px;
-  fill: #000000; /* Qora ikonka */
+  fill: #000000;
+  /* Qora ikonka */
   transition: transform 0.2s ease;
 }
 
 .accordion-header svg.open {
-  transform: rotate(180deg); /* Ochilganda strelka pastga qaraydi */
+  transform: rotate(180deg);
+  /* Ochilganda strelka pastga qaraydi */
 }
 
 /* Accordion kontenti */
@@ -242,14 +258,16 @@
   padding-left: 30px;
   margin: 10px 0;
   font-size: 14px;
-  color: #000000; /* Qora matn */
+  color: #000000;
+  /* Qora matn */
 }
 
 .form-group-radio label::before {
   content: "";
   width: 20px;
   height: 20px;
-  border: 2px solid #000000; /* Qora chegara */
+  border: 2px solid #000000;
+  /* Qora chegara */
   border-radius: 50%;
   position: absolute;
   left: 0;
@@ -257,15 +275,17 @@
   transform: translateY(-50%);
 }
 
-.form-group-radio input[type="radio"]:checked + label::before {
-  border-color: #007bff; /* Ko‘k rang (rasmdagi kabi) */
+.form-group-radio input[type="radio"]:checked+label::before {
+  border-color: #007bff;
+  /* Ko‘k rang (rasmdagi kabi) */
 }
 
 .form-group-radio label::after {
   content: "";
   width: 15px;
   height: 15px;
-  background-color: #007bff; /* Ko‘k rang */
+  background-color: #007bff;
+  /* Ko‘k rang */
   border-radius: 50%;
   position: absolute;
   left: 4.5px;
@@ -274,60 +294,69 @@
   transition: transform 0.2s ease-in-out;
 }
 
-.form-group-radio input[type="radio"]:checked + label::after {
+.form-group-radio input[type="radio"]:checked+label::after {
   transform: translateY(-50%) scale(1);
 }
 
 /* Input maydonlari */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
-.form-group input.formInput {
-  width: 100%;
+.formInput-fil {
+  margin: 10px 0;
+  border: 1px solid #908f95;
+  border-radius: 10px;
   padding: 10px;
-  border: 1px solid #000000; /* Qora chegara */
-  border-radius: 5px; /* Rasmda radius kichikroq */
-  background-color: #ffffff; /* Oq fon */
-  color: #000000; /* Qora matn */
-  font-size: 14px;
+  width: 100%;
 }
 
 .form-group input.formInput:focus {
   outline: none;
-  border-color: #007bff; /* Fokusda ko‘k */
+  border-color: #007bff;
+  /* Fokusda ko‘k */
 }
 
 /* Search Article qismi */
 .search-article {
   display: flex;
   align-items: center;
-  border: 1px solid #000000; /* Qora chegara */
-  border-radius: 5px;
-  background-color: #ffffff; /* Oq fon */
+  border: 1px solid #908f95;
+  height: 37px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  /* Oq fon */
 }
 
-.search-article img {
-  margin: 0 8px;
-  width: 16px;
-  height: 16px;
+.formInput-search {
+  border: none;
+  padding: 10px;
+  background: none;
+  width: 100%;
+  color: #000000;
+  outline: none;
 }
+
 
 .search-article .formInput {
   border: none;
   padding: 10px;
   background: none;
   width: 100%;
-  color: #000000; /* Qora matn */
+  color: #000000;
+  /* Qora matn */
 }
 
 /* Применить tugmasi */
 .formButton {
   width: 100%;
   padding: 15px;
-  border-radius: 5px; /* Rasmda radius kichikroq */
-  background-color: #007bff; /* Ko‘k tugma (rasmdagi kabi) */
-  color: #ffffff; /* Oq matn */
+  border-radius: 5px;
+  /* Rasmda radius kichikroq */
+  background-color: #007bff;
+  /* Ko‘k tugma (rasmdagi kabi) */
+  color: #ffffff;
+  /* Oq matn */
   font-weight: 600;
   font-size: 14px;
   border: none;
@@ -336,5 +365,28 @@
 }
 
 .formButton:hover {
-  background-color: #0056b3; /* Hover effekti (bir oz quyuqroq ko‘k) */
+  background-color: #0056b3;
+  /* Hover effekti (bir oz quyuqroq ko‘k) */
+}
+
+
+
+.categoryProducts_title .sub-title {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 29px;
+  margin: 20px 0 15px;
+  margin: 0;
+}
+
+.gray-7dfs-14 {
+  color: #7d7d7d;
+  font-size: 14px;
+}
+
+.categoryProducts_title>.flex {
+  display: flex !important;
+  align-items: flex-end !important;
+  gap: 12px !important;
 }

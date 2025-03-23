@@ -9,6 +9,7 @@ const FilterModal = ({
   applyFilters,
   statusAccordionOpen,
   setStatusAccordionOpen,
+  statusPriceOpen, setStatusPriceOpen
 }) => {
   if (!isFilterOpen) return null;
 
@@ -60,7 +61,7 @@ const FilterModal = ({
                 />
               </svg>
             </div>
-            {statusAccordionOpen && (
+            {!statusAccordionOpen && (
               <div className="accordion-content">
                 <div className="form-group-radio">
                   <input
@@ -105,40 +106,58 @@ const FilterModal = ({
           </div>
 
           <div className="accordion">
-            <div className="accordion-header">
+            <div
+              className="accordion-header"
+              onClick={() => setStatusPriceOpen(!statusPriceOpen)}
+            >
               <label>Цена</label>
-            </div>
-            <div className="accordion-content">
-              <div className="form-group">
-                <input
-                  type="number"
-                  className="formInput"
-                  placeholder="От"
-                  value={pendingFilters.priceFrom || ""}
-                  onChange={(e) =>
-                    setPendingFilters({
-                      ...pendingFilters,
-                      priceFrom: e.target.value,
-                    })
-                  }
+              <svg
+                className={`arrow ${statusPriceOpen ? "open" : ""}`}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M12 15.414l6.293-6.293 1.414 1.414-7.707 7.707-7.707-7.707 1.414-1.414z"
                 />
-              </div>
-              <div className="form-group">
-                <input
-                  type="number"
-                  className="formInput"
-                  placeholder="До"
-                  value={pendingFilters.priceTo || ""}
-                  onChange={(e) =>
-                    setPendingFilters({
-                      ...pendingFilters,
-                      priceTo: e.target.value,
-                    })
-                  }
-                />
-              </div>
+              </svg>
             </div>
+            {!statusPriceOpen && (
+              <div className="accordion-content">
+                <div className="form-group">
+                  <input
+                    type="number"
+                    className="formInput-fil"
+                    placeholder="От"
+                    value={pendingFilters.priceFrom || ""}
+                    onChange={(e) =>
+                      setPendingFilters({
+                        ...pendingFilters,
+                        priceFrom: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    type="number" className="formInput-fil"
+                    placeholder="До"
+                    value={pendingFilters.priceTo || ""}
+                    onChange={(e) =>
+                      setPendingFilters({
+                        ...pendingFilters,
+                        priceTo: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+            )}
           </div>
+
+
 
           <div className="accordion">
             <div className="accordion-header">
@@ -150,7 +169,7 @@ const FilterModal = ({
                   <img src={searchIcon} alt="search icon" />
                   <input
                     type="text"
-                    className="formInput"
+                    className="formInput-search"
                     placeholder="Поиск по значениям"
                     value={pendingFilters.article || ""}
                     onChange={(e) =>

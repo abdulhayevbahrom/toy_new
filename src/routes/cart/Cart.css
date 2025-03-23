@@ -119,7 +119,7 @@
   background-color: #262626;
 }
 
-.card-block-element > h3 {
+.card-block-element>h3 {
   color: #fff;
   line-height: 32px;
 }
@@ -228,10 +228,7 @@
   width: 100%;
 }
 
-.container-order-data
-  .order-form-select-group
-  .order-choise-btn-label:last-child
-  .choise-btn {
+.container-order-data .order-form-select-group .order-choise-btn-label:last-child .choise-btn {
   background: url(/src/img/payment.svg) no-repeat 0 / 40px 40px,
     url(/src/img/chevron-right.svg) no-repeat calc(100% - 16px) / 15px 15px;
   border-radius: 0 0 10px 10px;
@@ -265,26 +262,13 @@
   &.order-form {
     margin: unset;
 
-    .form-group-section,
-    .form-group,
-    .formInput {
+    .form-group-section {
       background-color: transparent !important;
     }
 
     .form-group-section {
       padding-top: 22px;
 
-      .formInput {
-        padding-left: 0;
-        font-size: 18px;
-        font-weight: 400;
-        height: 32px;
-        color: #fff;
-
-        &::placeholder {
-          color: #7d7d7d;
-        }
-      }
     }
 
     .white-weight-text {
@@ -360,20 +344,19 @@
 
 .form-group {
   width: 100%;
-  background-color: #7d7d7d;
 }
 
 .form-group .formInput {
-  padding-left: 0;
-  font-size: 18px;
+  padding-left: 0 !important;
+  font-size: 17px !important;
   font-weight: 400;
+  background-color: transparent !important;
   height: 32px;
   width: 100%;
   outline: none;
-  border: none;
+  border-radius: 0 !important;
+  border: none !important;
+  /* This removes all borders */
   border-bottom: 1px solid #7d7d7d !important;
-}
-
-.formInput:last-child {
-  border-bottom: none;
+  /* This adds back only the bottom border */
 }
