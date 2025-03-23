@@ -10,6 +10,7 @@ import { TotalBlock } from "./TotalBlock";
 import { getDeclination } from "../../utils/getDeclination";
 import formatNumber from "../../utils/numberFormat";
 
+
 const NewCart = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
