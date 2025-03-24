@@ -12,18 +12,19 @@ import CategoryProducts from "./routes/categoryProducts/CategoryProducts";
 import AuthTelegram from "./auth/Auth";
 
 function App() {
-  const location = useLocation();
-  const isAuthPage = location.pathname === "/auth";
+  // const location = useLocation();
+  // const isAuthPage = location.pathname === "/auth";
 
-  useEffect(() => {
-    if (!localStorage.getItem("user") && !isAuthPage) {
-      window.location.href = "/auth";
-    }
-  }, [isAuthPage]);
+  // useEffect(() => {
+  //   if (!localStorage.getItem("user") && !isAuthPage) {
+  //     window.location.href = "/auth";
+  //   }
+  // }, [isAuthPage]);
   return (
     <div className="app">
       <Toaster />
-      {!isAuthPage && <Header />}
+      {/* {!isAuthPage && <Header />} */}
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<SinglePage />} />
@@ -32,10 +33,10 @@ function App() {
         <Route path="/orderInfo/:id" element={<OrderInfo />} />
         <Route path="/category/:id" element={<CategoryProducts />} />
         <Route path="/search" element={<CategoryProducts />} />
-        <Route path="/auth" element={<AuthTelegram />} />
+        {/* <Route path="/auth" element={<AuthTelegram />} /> */}
       </Routes>
-      {!isAuthPage && <Footer />}
-      {/* push uhcun */}
+      {/* {!isAuthPage && <Footer />} */}
+      <Footer />
     </div>
   );
 }
