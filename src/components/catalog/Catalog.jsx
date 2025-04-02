@@ -195,6 +195,26 @@ function Catalog() {
     dispatch(addToCart(product));
   };
 
+  // const catalogs = useMemo(() => {
+  //   return products
+  //     .map((item, index) => ({
+  //       ...item,
+  //       originalIndex: index,
+  //       products: item.products
+  //         .filter(
+  //           (product) =>
+  //             product.price &&
+  //             parseInt(product.price) !== 0 &&
+  //             product.inStock &&
+  //             parseInt(product.inStock) !== 0
+  //         )
+  //         .slice(0, 9),
+  //     }))
+  //     .sort((a, b) => a.categoryName.localeCompare(b.categoryName));
+  // }, [products]);
+
+  // console.log(catalogs);
+
   const catalogs = useMemo(() => {
     return products
       .map((item, index) => ({
@@ -208,6 +228,19 @@ function Catalog() {
               product.inStock &&
               parseInt(product.inStock) !== 0
           )
+          // Faqat categoryName === "Кроссовки" bo‘lsa rang va o‘lcham bo‘yicha birlashtirish
+          .reduce((unique, product) => {
+            if (item.categoryName === "Кроссовки") {
+              const key = `${product.color}-${product.size}`; // Rang va o‘lcham kombinatsiyasi
+              const exists = unique.some((p) => `${p.color}-${p.size}` === key);
+              if (!exists) {
+                unique.push(product);
+              }
+            } else {
+              unique.push(product); // Agar "Кроссовки" bo‘lmasa, barchasini qo‘shish
+            }
+            return unique;
+          }, [])
           .slice(0, 9),
       }))
       .sort((a, b) => a.categoryName.localeCompare(b.categoryName));

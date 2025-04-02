@@ -4,7 +4,6 @@
   display: flex;
   gap: 12px;
   margin-top: 35px;
-
 }
 
 .cardInfo .left-card-block {
@@ -26,6 +25,9 @@
   max-height: 160px;
 }
 
+.receipt {
+  width: 100%;
+}
 
 .cardInfo .date {
   color: #fff;
@@ -78,7 +80,7 @@
   margin: 0;
 }
 
-.title-block>button,
+.title-block > button,
 span {
   color: #fff;
 }
@@ -115,9 +117,11 @@ span {
 
 .cart-item-picture img {
   border-radius: 10px;
-  height: 120px;
-  object-fit: cover;
-  width: 125px;
+  /* height: 120px; */
+  height: 100%;
+  /* object-fit: cover; */
+  /* width: 125px; */
+  width: 100%;
 }
 
 .cardInfo .cart-item-data {

@@ -35,26 +35,28 @@ export const Header = () => {
     }
 
     fetchData();
-    return () => { };
+    return () => {};
   }, []);
-
-
 
   // Tashqi clickni ushlash uchun useEffect
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Agar click dropdown ichida bo'lmasa va sidebar ochiq bo'lsa
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target) && openSidebar) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        openSidebar
+      ) {
         setOpenSidebar(false);
       }
     };
 
     // Documentga click event listener qo'shamiz
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     // Component unmount bo'lganda listenerni o'chiramiz
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openSidebar]); // openSidebar o'zgarganda qayta ishlaydi
 
@@ -88,7 +90,6 @@ export const Header = () => {
     }));
 
   const cart = useSelector((state) => state.cart.items);
-
 
   const closeModals = () => {
     if (openSidebar) setOpenSidebar(false);
@@ -128,25 +129,18 @@ export const Header = () => {
         <div className="header__right">
           <div className="bottomBar">
             <div className={`icon ${modal1 && "activeIcon"}`}>
-              <img
-                src={phoneIcon}
-                onClick={() => setModal1(!modal1)}
-                alt=""
-              />
+              <img src={phoneIcon} onClick={() => setModal1(!modal1)} alt="" />
             </div>
             <div className={`icon ${modal2 && "activeIcon"}`}>
-              <img
-                src={caseIcon}
-                onClick={() => setModal2(!modal2)}
-                alt=""
-              />
+              <img src={caseIcon} onClick={() => setModal2(!modal2)} alt="" />
             </div>
             <div className="icon">
               <img src={cartIcon} onClick={() => nav("/cart")} alt="" />
-              {cart?.length > 0 &&
+              {cart?.length > 0 && (
                 <div className="card-count-number">
-                  <p>{cart?.length}</p></div>
-              }
+                  <p>{cart?.length}</p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -156,7 +150,6 @@ export const Header = () => {
               alt=""
               onClick={() => setOpenSidebar(!openSidebar)}
             />
-
           </div>
         </div>
       </div>
@@ -316,5 +309,3 @@ export const Header = () => {
     </>
   );
 };
-
-

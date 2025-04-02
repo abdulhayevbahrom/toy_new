@@ -9,9 +9,23 @@ import { Header } from "./components/header/Header";
 import Order from "./routes/orders/Order";
 import OrderInfo from "./routes/orderInfo/OrderInfo";
 import CategoryProducts from "./routes/categoryProducts/CategoryProducts";
-import AuthTelegram from "./auth/Auth";
+// import AuthTelegram from "./auth/Auth";
+import { useDispatch } from "react-redux";
+import { getUser } from "./api";
+import { setUserInfo } from "./context/cartSlice";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchData = async () => {
+      const userData = await getUser();
+      if (userData) {
+        dispatch(setUserInfo(userData));
+      }
+    };
+    fetchData();
+  }, []);
+
   // const location = useLocation();
   // const isAuthPage = location.pathname === "/auth";
 

@@ -3,15 +3,12 @@ import "./Order.css";
 import { getDeclination } from "../../utils/getDeclination";
 import { useNavigate } from "react-router-dom";
 import numberFormat from "../../utils/numberFormat";
+import { useSelector } from "react-redux";
 
 function Order() {
   const nav = useNavigate();
-
-  const order = {
-    orderId: 222,
-    orderDate: 1646960000,
-    orderStatus: 1,
-  };
+  let userInfo = useSelector((state) => state.cart.userInfo);
+  let ordersStory = userInfo?.orders;
 
   const customDate = (orderDate) => {
     let date = new Date(orderDate * 1000).toLocaleDateString("ru-RU", {
@@ -35,98 +32,30 @@ function Order() {
         <span>{getDeclination(3, ["заказ", "заказа", "заказов"])}</span>
       </div>
 
-      <div
-        className="container-order"
-        onClick={() => nav(`/orderInfo/${order.orderId}`)}
-      >
-        <div className="cart-item-label">
-          <h3>Заказ #{222}</h3>
-          <div className="info-order">
-            <span className="dateLabel">Дата заказа:</span>
-            <span className="dateValue">{customDate(order.orderDate)}</span>
-            <span className="dateLabel">Кол-во товаров:</span>
-            <span className="dateValue">{order?.products?.length || 444}</span>
-          </div>
-          <span className="price-orders">
-            {numberFormat(+order.total || 333)} ₽
-          </span>
-        </div>
-        <button
-          className="btn_more"
+      {ordersStory?.map((order, index) => (
+        <div
+          key={index}
+          className="container-order"
           onClick={() => nav(`/orderInfo/${order.orderId}`)}
         >
-          Подробнее
-        </button>
-      </div>
-      <div
-        className="container-order"
-        onClick={() => nav(`/orderInfo/${order.orderId}`)}
-      >
-        <div className="cart-item-label">
-          <h3>Заказ #{222}</h3>
-          <div className="info-order">
-            <span className="dateLabel">Дата заказа:</span>
-            <span className="dateValue">{customDate(order.orderDate)}</span>
-            <span className="dateLabel">Кол-во товаров:</span>
-            <span className="dateValue">{order?.products?.length || 444}</span>
+          <div className="cart-item-label">
+            <h3>Заказ #{order?.orderId}</h3>
+            <div className="info-order">
+              <span className="dateLabel">Дата заказа:</span>
+              <span className="dateValue">{customDate(order.orderDate)}</span>
+              <span className="dateLabel">Кол-во товаров:</span>
+              <span className="dateValue">{order?.products?.length}</span>
+            </div>
+            <span className="price-orders">{numberFormat(+order.total)} ₽</span>
           </div>
-          <span className="price-orders">
-            {numberFormat(+order.total || 333)} ₽
-          </span>
+          <button
+            className="btn_more"
+            onClick={() => nav(`/orderInfo/${order.orderId}`)}
+          >
+            Подробнее
+          </button>
         </div>
-        <button
-          className="btn_more"
-          onClick={() => nav(`/orderInfo/${order.orderId}`)}
-        >
-          Подробнее
-        </button>
-      </div>
-      <div
-        className="container-order"
-        onClick={() => nav(`/orderInfo/${order.orderId}`)}
-      >
-        <div className="cart-item-label">
-          <h3>Заказ #{222}</h3>
-          <div className="info-order">
-            <span className="dateLabel">Дата заказа:</span>
-            <span className="dateValue">{customDate(order.orderDate)}</span>
-            <span className="dateLabel">Кол-во товаров:</span>
-            <span className="dateValue">{order?.products?.length || 444}</span>
-          </div>
-          <span className="price-orders">
-            {numberFormat(+order.total || 333)} ₽
-          </span>
-        </div>
-        <button
-          className="btn_more"
-          onClick={() => nav(`/orderInfo/${order.orderId}`)}
-        >
-          Подробнее
-        </button>
-      </div>
-      <div
-        className="container-order"
-        onClick={() => nav(`/orderInfo/${order.orderId}`)}
-      >
-        <div className="cart-item-label">
-          <h3>Заказ #{222}</h3>
-          <div className="info-order">
-            <span className="dateLabel">Дата заказа:</span>
-            <span className="dateValue">{customDate(order.orderDate)}</span>
-            <span className="dateLabel">Кол-во товаров:</span>
-            <span className="dateValue">{order?.products?.length || 444}</span>
-          </div>
-          <span className="price-orders">
-            {numberFormat(+order.total || 333)} ₽
-          </span>
-        </div>
-        <button
-          className="btn_more"
-          onClick={() => nav(`/orderInfo/${order.orderId}`)}
-        >
-          Подробнее
-        </button>
-      </div>
+      ))}
     </div>
   );
 }

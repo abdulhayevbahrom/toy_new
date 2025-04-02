@@ -103,6 +103,12 @@
   }
 }
 
+.size_containe {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .product-content {
   display: flex;
   flex-direction: column;
@@ -147,6 +153,7 @@
       font-size: 24px;
       font-weight: 700;
       line-height: 29.05px;
+      color: #000;
     }
 
     .size-description {

@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearCart, removeFromCart, updateQuantity } from "../../context/cartSlice";
+import {
+  clearCart,
+  removeFromCart,
+  updateQuantity,
+} from "../../context/cartSlice";
 import { FaTrash, FaMinus, FaPlus } from "react-icons/fa";
 import "./Cart.css";
 import { DeliveryInfoBlock } from "./DeliveryInfoBlock";
@@ -9,7 +13,6 @@ import { PayTypeDeliveryBlock } from "./PayTypeDeliveryBlock";
 import { TotalBlock } from "./TotalBlock";
 import { getDeclination } from "../../utils/getDeclination";
 import formatNumber from "../../utils/numberFormat";
-
 
 const NewCart = () => {
   const nav = useNavigate();
@@ -19,8 +22,12 @@ const NewCart = () => {
 
   const cart = useSelector((state) => state.cart.items);
   const [totalPrice, setTotalPrice] = useState(0);
+
   useEffect(() => {
-    let price = cart.reduce((acc, product) => acc + product.price * product.quantity * product.inBox, 0);
+    let price = cart.reduce(
+      (acc, product) => acc + product.price * product.quantity * product.inBox,
+      0
+    );
     setTotalPrice(parseInt(price));
   }, [cart]);
 
@@ -32,7 +39,9 @@ const NewCart = () => {
             <div className="title-block">
               <div className="card-block-element-title">
                 <h3>Корзина</h3>
-                <span>{getDeclination(cart.length, ["товар", "товара", "товаров"])}</span>
+                <span>
+                  {getDeclination(cart.length, ["товар", "товара", "товаров"])}
+                </span>
               </div>
               <button onClick={() => dispatch(clearCart())}>
                 Очистить корзину <FaTrash />
@@ -49,7 +58,10 @@ const NewCart = () => {
                       nav("/product/" + product.id);
                     }}
                   >
-                    <img src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`} alt="product" />
+                    <img
+                      src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
+                      alt="product"
+                    />
                   </div>
                   <div className="cart-item-data">
                     <div className="cart-item-label">
@@ -57,7 +69,9 @@ const NewCart = () => {
                       <div className="cart-item-caption">
                         <span>характеристики добавить</span>
                         <span>PM3: {product.inBox} шт</span>
-                        <FaTrash onClick={() => dispatch(removeFromCart(product.id))} />
+                        <FaTrash
+                          onClick={() => dispatch(removeFromCart(product.id))}
+                        />
                       </div>
                     </div>
                     <div className="cart-right-block">
@@ -66,17 +80,29 @@ const NewCart = () => {
                           <FaMinus
                             onClick={() => {
                               if (product.quantity > 1) {
-                                dispatch(updateQuantity({ id: product.id, quantity: product.quantity - 1 }));
+                                dispatch(
+                                  updateQuantity({
+                                    id: product.id,
+                                    quantity: product.quantity - 1,
+                                  })
+                                );
                               } else {
                                 dispatch(removeFromCart(product.id));
                               }
                             }}
                           />
-                          <div className="cic-count">{Math.ceil(product.quantity * product.inBox)}</div>
+                          <div className="cic-count">
+                            {Math.ceil(product.quantity * product.inBox)}
+                          </div>
                           <FaPlus
                             onClick={() => {
                               if (product.quantity < product.inStock) {
-                                dispatch(updateQuantity({ id: product.id, quantity: product.quantity + 1 }));
+                                dispatch(
+                                  updateQuantity({
+                                    id: product.id,
+                                    quantity: product.quantity + 1,
+                                  })
+                                );
                               }
                             }}
                           />
@@ -87,7 +113,11 @@ const NewCart = () => {
                         </div>
                       )}
                       <span className="cart-item-price">
-                        {formatNumber(Math.ceil(product.quantity * product.inBox) * product.price)} ₽
+                        {formatNumber(
+                          Math.ceil(product.quantity * product.inBox) *
+                            product.price
+                        )}{" "}
+                        ₽
                       </span>
                     </div>
                   </div>
@@ -98,8 +128,17 @@ const NewCart = () => {
           <DeliveryInfoBlock />
         </div>
         <div className="right-card-block">
-          <TotalBlock cart={cart} deliveryData={deliveryData} paymentData={paymentData} />
-          <PayTypeDeliveryBlock paymentData={paymentData} setPaymentData={setPaymentData} deliveryData={deliveryData} setDeliveryData={setDeliveryData} />
+          <TotalBlock
+            cart={cart}
+            deliveryData={deliveryData}
+            paymentData={paymentData}
+          />
+          <PayTypeDeliveryBlock
+            paymentData={paymentData}
+            setPaymentData={setPaymentData}
+            deliveryData={deliveryData}
+            setDeliveryData={setDeliveryData}
+          />
         </div>
       </div>
     </div>

@@ -53,6 +53,7 @@ function SinglePage() {
 
   const getDisplayQuantity = (inCart, product) => {
     if (!inCart || !product) return 0;
+
     const boxQuantity = Number(inCart.quantity) * Number(product.inBox);
     const packageSize = Number(product.inPackage);
     return packageSize && boxQuantity % packageSize !== 0
@@ -73,14 +74,7 @@ function SinglePage() {
   };
 
   const handleDecrement = () => {
-    dispatch(
-      decrementQuantity({
-        productId: product.id,
-        inBox: product.inBox,
-        inPackage: product.inPackage,
-        inTheBox: product.inTheBox,
-      })
-    );
+    dispatch(decrementQuantity({ product }));
   };
 
   const displayQuantity = useMemo(
@@ -135,9 +129,15 @@ function SinglePage() {
             className="shoesSizes"
           >
             <h3 className="sub-title">Размер</h3>
-            <div className="size-block" onClick={() => setIsSizeBtn(1)}>
-              <span className="size-letter">{product?.shoeSizeRu}</span>
-              <div className="size-description"></div>
+            <div className="size_containe">
+              <div className="size-block" onClick={() => setIsSizeBtn(1)}>
+                <span className="size-letter">{product?.shoeSizeRu}</span>
+                <div className="size-description"></div>
+              </div>
+              <div className="size-block" onClick={() => setIsSizeBtn(1)}>
+                <span className="size-letter">{product?.shoeSizeRu}</span>
+                <div className="size-description"></div>
+              </div>
             </div>
           </div>
           <div className="singlepageInfoBtns">
@@ -222,7 +222,10 @@ if (isLoading) {
                 <button className="counter-button" onClick={handleDecrement}>
                   <FiMinus />
                 </button>
-                <span className="counter-value">{displayQuantity}</span>
+                <span className="counter-value">
+                  {" "}
+                  {Math.ceil(inCart.quantity * inCart.inBox)}
+                </span>
                 <button className="counter-button" onClick={handleIncrement}>
                   <FiPlus />
                 </button>
@@ -266,5 +269,3 @@ if (isLoading) {
 }
 
 export default SinglePage;
-
-
