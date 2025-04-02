@@ -16,6 +16,21 @@ import { setUserInfo } from "./context/cartSlice";
 
 function App() {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    let user = {
+      id: 996493305,
+      first_name: "Bahromjon",
+      last_name: "Abdulhayev",
+      username: "bahromjon_abdulhayev",
+      photo_url:
+        "https://t.me/i/userpic/320/nVfgAIJCi2wAIgtXWO_XkPV6MnhijbgkA-0x26KCbww.jpg",
+      auth_date: 1742876261,
+      hash: "1b2733b85dd159050da67f81cea665ff478c59dbbdefd0578e0fc744b51ecc36",
+    };
+    localStorage.setItem("user", JSON.stringify(user));
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       const userData = await getUser();
