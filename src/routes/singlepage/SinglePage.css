@@ -212,6 +212,7 @@
     padding: 3px 16px;
     color: #d9d9d9;
     border-radius: 10px;
+    width: auto !important;
   }
 
   /* add to cart btn */
@@ -250,7 +251,7 @@
   }
 
   .price-block {
-    display: flex;
+    display: flex !important;
     gap: 7px;
     align-items: center;
 
