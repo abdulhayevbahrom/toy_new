@@ -165,7 +165,7 @@
 
   .singlepageInfoBtns {
     display: flex;
-    gap: 10px;
+    gap: 10px !important;
   }
   .small-white-button {
     padding: 3px 16px;
