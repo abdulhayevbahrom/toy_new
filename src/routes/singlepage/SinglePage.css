@@ -194,9 +194,9 @@
   }
 
   .product_keywords {
-    display: flex;
-    gap: 15px;
-    flex-direction: column;
+    display: flex !important;
+    gap: 15px !important;
+    flex-direction: column !important;
   }
 
   .product_keywords_items {
