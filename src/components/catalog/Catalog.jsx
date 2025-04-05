@@ -139,11 +139,7 @@ import formatNumber from "../../utils/numberFormat";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import "./Catalog.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  decrementQuantity,
-  incrementQuantity,
-  addToCart,
-} from "../../context/cartSlice";
+import { decrementQuantity, incrementQuantity } from "../../context/cartSlice";
 
 function Catalog() {
   const nav = useNavigate();
@@ -189,10 +185,6 @@ function Catalog() {
         inTheBox: product.inTheBox,
       })
     );
-  };
-
-  const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
   };
 
   // const catalogs = useMemo(() => {

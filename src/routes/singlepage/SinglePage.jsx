@@ -134,10 +134,6 @@ function SinglePage() {
                 <span className="size-letter">{product?.shoeSizeRu}</span>
                 <div className="size-description"></div>
               </div>
-              <div className="size-block" onClick={() => setIsSizeBtn(1)}>
-                <span className="size-letter">{product?.shoeSizeRu}</span>
-                <div className="size-description"></div>
-              </div>
             </div>
           </div>
           <div className="singlepageInfoBtns">
