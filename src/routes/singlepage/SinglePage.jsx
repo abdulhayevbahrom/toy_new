@@ -62,6 +62,7 @@ function SinglePage() {
   };
 
   const handleIncrement = () => {
+    if (!product) return; // Agar product mavjud bo‘lmasa, hech narsa qilmaymiz
     dispatch(
       incrementQuantity({
         productId: product.id,
@@ -130,7 +131,10 @@ function SinglePage() {
           >
             <h3 className="sub-title">Размер</h3>
             <div className="size_containe">
-              <div className="size-block" onClick={() => setIsSizeBtn(1)}>
+              <div
+                className="size-block"
+                onClick={() => setIsSizeBtn(product?.shoeSizeRu)}
+              >
                 <span className="size-letter">{product?.shoeSizeRu}</span>
                 <div className="size-description"></div>
               </div>
@@ -219,8 +223,12 @@ if (isLoading) {
                   <FiMinus />
                 </button>
                 <span className="counter-value">
-                  {" "}
-                  {Math.ceil(inCart.quantity * inCart.inBox)}
+                  {/* {Math.ceil(inCart.quantity * inCart.inBox)} */}
+                  {parseInt(inCart.quantity * inCart.inBox) %
+                    inCart.inPackage !==
+                  0
+                    ? Math.ceil(inCart.quantity * inCart.inBox)
+                    : parseInt(inCart.quantity * inCart.inBox)}
                 </span>
                 <button className="counter-button" onClick={handleIncrement}>
                   <FiPlus />
