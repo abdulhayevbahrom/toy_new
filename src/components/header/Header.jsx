@@ -60,6 +60,10 @@ export const Header = () => {
     };
   }, [openSidebar]); // openSidebar o'zgarganda qayta ishlaydi
 
+  // "categoryName"
+  //    "subCategoryName"
+  //        "productTypeName"
+
   let sidebarData = products
     .sort((a, b) => {
       if (a.categoryName === "Новинки") return -1;
@@ -69,24 +73,29 @@ export const Header = () => {
     .map((p) => ({
       a: p.categoryName,
       b: Object.values(
-        p.products.reduce((acc, item, index) => {
+        p.products.reduce((acc, item) => {
           if (item.subCategoryName) {
             if (!acc[item.subCategoryName]) {
               acc[item.subCategoryName] = {
                 name: item.subCategoryName,
-                data: new Set(),
+                data: new Map(), // Set o'rniga Map ishlatamiz
               };
             }
-            if (item.modelName) {
-              acc[item.subCategoryName].data.add({
-                modelName: item.modelName,
-                index: index,
+            if (item.productTypeName) {
+              // Faqat yangi productTypeName qo'shamiz, takrorlanmaslik uchun
+              acc[item.subCategoryName].data.set(item.productTypeName, {
+                productTypeName: item.productTypeName,
+                categoryID: item.categoryID,
+                productTypeID: item.productTypeID,
               });
             }
           }
           return acc;
         }, {})
-      ).map((obj) => ({ ...obj, data: [...obj.data] })),
+      ).map((obj) => ({
+        name: obj.name,
+        data: [...obj.data.values()], // Map'dan qiymatlarni arrayga aylantiramiz
+      })),
     }));
 
   const cart = useSelector((state) => state.cart.items);
@@ -101,7 +110,6 @@ export const Header = () => {
     // Redux store'ga searchQuery ni yangilash
     dispatch(setSearchQuery(e.target.value));
   };
-
   return (
     <>
       <div className="container header" onClick={closeModals}>
@@ -160,13 +168,13 @@ export const Header = () => {
             История заказов <img src={arrowIcon} alt="" />
           </div>
 
-          {sidebarData.map((c, i) => (
+          {sidebarData.map((category, i) => (
             <div className="menu_item" key={i}>
               <p
                 className="category"
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
               >
-                {c.a}
+                {category.a}
                 <img
                   style={{
                     transform: openIndex === i ? "rotate(90deg)" : "",
@@ -177,18 +185,18 @@ export const Header = () => {
               </p>
 
               {openIndex === i &&
-                c?.b?.map((b, j) => (
+                category?.b?.map((subCategory, j) => (
                   <div className="subcategory_block" key={j}>
                     <p
                       onClick={() => {
                         setOpenSubIndex(
                           openSubIndex === `${i}-${j}` ? null : `${i}-${j}`
                         );
-                        if (!b?.data?.length) nav("/category/" + i);
+                        // if (!subCategory?.data?.length) nav("/category/" + i);
                       }}
                       className="subcategory"
                     >
-                      {b.name}
+                      {subCategory.name}
                       <img
                         style={{
                           transform:
@@ -200,13 +208,20 @@ export const Header = () => {
                     </p>
 
                     {openSubIndex === `${i}-${j}` &&
-                      b?.data?.map((model, k) => (
+                      subCategory?.data?.map((model, k) => (
                         <p
-                          onClick={() => nav("/product/" + model.index)}
+                          onClick={() =>
+                            nav(
+                              "/category/" +
+                                model.categoryID +
+                                "/" +
+                                model.productTypeID
+                            )
+                          }
                           className="model_name"
                           key={k}
                         >
-                          {model.modelName}
+                          {model.productTypeName}
                           <img alt="" src={arrowIcon} />
                         </p>
                       ))}

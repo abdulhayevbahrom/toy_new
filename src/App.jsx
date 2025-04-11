@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Home from "./routes/home/Home";
 import Footer from "./components/footer/Footer";
@@ -9,6 +9,7 @@ import { Header } from "./components/header/Header";
 import Order from "./routes/orders/Order";
 import OrderInfo from "./routes/orderInfo/OrderInfo";
 import CategoryProducts from "./routes/categoryProducts/CategoryProducts";
+import CategoryProductsAll from "./routes/categoryProducts/CategoryProductsAll";
 // import AuthTelegram from "./auth/Auth";
 import { useDispatch } from "react-redux";
 import { getUser } from "./api";
@@ -56,11 +57,21 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/product/:id" element={<SinglePage />} />
+        <Route
+          path="/product/:categoryID/:productTypeID/:productID"
+          element={<SinglePage />}
+        />
         <Route path="/cart" element={<NewCart />} />
         <Route path="/orders" element={<Order />} />
         <Route path="/orderInfo/:id" element={<OrderInfo />} />
-        <Route path="/category/:id" element={<CategoryProducts />} />
+        <Route
+          path="/category/:categoryID/:productTypeID"
+          element={<CategoryProducts />}
+        />
+        <Route
+          path="/category-products/:categoryID/"
+          element={<CategoryProductsAll />}
+        />
         <Route path="/search" element={<CategoryProducts />} />
         {/* <Route path="/auth" element={<AuthTelegram />} /> */}
       </Routes>

@@ -147,7 +147,6 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: 2px solid #1fb73a;
 
     .size-letter {
       font-size: 24px;
@@ -161,6 +160,9 @@
       font-weight: 400;
       line-height: 12.1px;
     }
+  }
+  .size-block.activeSize {
+    border: 2px solid #1fb73a;
   }
 
   .singlepageInfoBtns {

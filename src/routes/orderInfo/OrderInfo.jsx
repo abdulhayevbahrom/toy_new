@@ -72,7 +72,11 @@ function OrderInfo() {
               <div
                 className="cart-item-row"
                 key={product.productID}
-                onClick={() => nav("/product/" + product.productID)}
+                onClick={() =>
+                  nav(
+                    `/product/${product.categoryID}/${product.productTypeID}/${product.id}`
+                  )
+                }
               >
                 <div className="cart-item-picture">
                   <img

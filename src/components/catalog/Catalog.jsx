@@ -222,7 +222,7 @@ function Catalog() {
           )
           // Faqat categoryName === "Кроссовки" bo‘lsa rang va o‘lcham bo‘yicha birlashtirish
           .reduce((unique, product) => {
-            if (item.categoryName === "Кроссовки") {
+            if (product.categoryID === 3) {
               const key = `${product.color}-${product.size}`; // Rang va o‘lcham kombinatsiyasi
               const exists = unique.some((p) => `${p.color}-${p.size}` === key);
               if (!exists) {
@@ -233,6 +233,14 @@ function Catalog() {
             }
             return unique;
           }, [])
+          // .reduce((unique, product) => {
+          //   const key = `${product.color}-${product.size}`; // Deduplicate by color and size
+          //   const exists = unique.some((p) => `${p.color}-${p.size}` === key);
+          //   if (!exists) {
+          //     unique.push(product);
+          //   }
+          //   return unique;
+          // }, [])
           .slice(0, 9),
       }))
       .sort((a, b) => a.categoryName.localeCompare(b.categoryName));
@@ -244,7 +252,7 @@ function Catalog() {
         <div key={item.originalIndex} className="catalogItem">
           <p
             onClick={() => {
-              nav("/category/" + item.originalIndex);
+              nav("/category-products/" + item.products[0].categoryID);
             }}
             className="catalogItem_title"
           >
@@ -257,7 +265,9 @@ function Catalog() {
 
               return (
                 <div key={product.id} className="catalogItem_card">
-                  <Link to={`/product/${product.id}`}>
+                  <Link
+                    to={`/product/${product.categoryID}/${product.productTypeID}/${product.id}`}
+                  >
                     <img
                       src={`https://shop-api.toyseller.site/api/image/${product.id}/${product.image}`}
                       alt={product.article}

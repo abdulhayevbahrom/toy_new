@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./SinglePage.css";
-import { getSingleProduct } from "../../api/index";
+import { getProducts } from "../../api/index";
 import { FaChevronRight } from "react-icons/fa";
 import { SpecRow } from "./SpecRow";
 import { AgeEnum } from "../../utils/structures";
@@ -19,19 +19,64 @@ import { FiPlus, FiMinus } from "react-icons/fi";
 function SinglePage() {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const { id } = useParams();
+  const { categoryID, productTypeID, productID } = useParams();
   const cart = useSelector((state) => state.cart.items);
+  const [products, setProducts] = useState(null);
   const [product, setProduct] = useState(null);
-  const [isSizeBtn, setIsSizeBtn] = useState(1);
+  const [sizes, setSizes] = useState(new Set());
+  const [isSizeBtn, setIsSizeBtn] = useState(null);
   const [description, setDescription] = useState(true);
 
   useEffect(() => {
-    const getById = async () => {
-      const data = await getSingleProduct(id);
-      setProduct(data);
+    const fetchData = async () => {
+      const productsData = await getProducts();
+      let allProducts = [];
+
+      if (categoryID && productTypeID) {
+        const categoryProducts = productsData?.find(
+          (product, index) => index + 1 === +categoryID
+        );
+
+        allProducts = categoryProducts?.products || [];
+      } else {
+        allProducts = productsData.map((u) => u.products).flat();
+      }
+
+      const processedProducts = allProducts.filter(
+        (product) =>
+          product.price &&
+          parseInt(product.price) !== 0 &&
+          product.inStock &&
+          parseInt(product.inStock) !== 0 &&
+          +product.productTypeID === +productTypeID
+      );
+
+      setProducts(processedProducts);
+      setProduct(processedProducts.find((p) => p.id === +productID));
+      // setSizes(processedProducts.map((item) => item.article.slice(-2)));
+      setSizes(
+        new Set(
+          processedProducts
+            .map((item) => item.article.slice(-2))
+            .filter((item) => item !== "")
+        )
+      );
+      setIsSizeBtn(
+        processedProducts
+          .map((item) => item.article.slice(-2))
+          .filter((item) => item !== "")[0]
+      );
     };
-    getById();
-  }, [id]);
+
+    fetchData();
+  }, [categoryID, productTypeID]);
+
+  useEffect(() => {
+    const findProduct = products?.find(
+      (item) => item.article.slice(-2) === isSizeBtn
+    );
+    setProduct(findProduct);
+  }, [isSizeBtn]);
 
   const settings = useMemo(
     () => ({
@@ -45,9 +90,7 @@ function SinglePage() {
     [product]
   );
 
-  const sentToCart = (item) => {
-    dispatch(addToCart(item));
-  };
+  const sentToCart = (item) => dispatch(addToCart(item));
 
   const inCart = cart.find((item) => item.id === product?.id);
 
@@ -125,19 +168,22 @@ function SinglePage() {
               <span>Остаток: {product?.inStock} шт.</span>
             </div>
           </div>
-          <div
-            style={{ display: product?.categoryID === 40 ? "flex" : "none" }}
-            className="shoesSizes"
-          >
+          <div className="shoesSizes">
             <h3 className="sub-title">Размер</h3>
+
             <div className="size_containe">
-              <div
-                className="size-block"
-                onClick={() => setIsSizeBtn(product?.shoeSizeRu)}
-              >
-                <span className="size-letter">{product?.shoeSizeRu}</span>
-                <div className="size-description"></div>
-              </div>
+              {Array.from(sizes).map((size, i) => (
+                <div
+                  key={i}
+                  className={`size-block ${
+                    isSizeBtn === size && "activeSize"
+                  } `}
+                  onClick={() => setIsSizeBtn(size)}
+                >
+                  <span className="size-letter">{size}</span>
+                  <div className="size-description"></div>
+                </div>
+              ))}
             </div>
           </div>
           <div className="singlepageInfoBtns">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -21,15 +21,15 @@ const NewCart = () => {
   const [paymentData, setPaymentData] = useState("3");
 
   const cart = useSelector((state) => state.cart.items);
-  const [totalPrice, setTotalPrice] = useState(0);
+  // const [totalPrice, setTotalPrice] = useState(0);
 
-  useEffect(() => {
-    let price = cart.reduce(
-      (acc, product) => acc + product.price * product.quantity * product.inBox,
-      0
-    );
-    setTotalPrice(parseInt(price));
-  }, [cart]);
+  // useEffect(() => {
+  //   let price = cart.reduce(
+  //     (acc, product) => acc + product.price * product.quantity * product.inBox,
+  //     0
+  //   );
+  //   setTotalPrice(parseInt(price));
+  // }, [cart]);
 
   return (
     <div className="container box">
@@ -55,7 +55,9 @@ const NewCart = () => {
                     onClick={() => {
                       if (product.inStock <= 0) return;
                       localStorage.setItem("product", JSON.stringify(product));
-                      nav("/product/" + product.id);
+                      nav(
+                        `/product/${product.categoryID}/${product.productTypeID}/${product.id}`
+                      );
                     }}
                   >
                     <img
