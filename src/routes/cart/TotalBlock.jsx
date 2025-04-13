@@ -16,8 +16,7 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
     phone: "",
     address: "",
     comment: "",
-    companyName: "",
-    inn: "",
+    email: "",
   });
 
   useEffect(() => {
@@ -29,8 +28,7 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
           name: user?.name || "",
           phone: user?.phone || "",
           address: user?.address || "",
-          company: user?.company || "",
-          inn: user?.inn || "",
+          email: user?.email || "",
         })
       );
     };
@@ -44,8 +42,7 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
       phone: reduxUserInfo?.phone || "",
       address: reduxUserInfo?.address || "",
       comment: "",
-      companyName: reduxUserInfo?.company || "",
-      inn: reduxUserInfo?.inn || "",
+      email: reduxUserInfo?.email || "",
     });
   }, [reduxUserInfo]);
 
@@ -79,8 +76,8 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
         paymentData === "3"
           ? "Наличными"
           : paymentData === "4"
-            ? "Картой"
-            : "Счет",
+          ? "Картой"
+          : "Счет",
       products: cart.map((product) => ({
         id: product.id,
         name: product.article,
@@ -112,8 +109,7 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
           phone: "",
           address: "",
           comment: "",
-          companyName: "",
-          inn: "",
+          email: "",
         });
         dispatch(
           setUserInfo({
@@ -121,8 +117,7 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
             name: "",
             phone: "",
             address: "",
-            company: "",
-            inn: "",
+            email: "",
           })
         );
       }, 3000);
@@ -145,7 +140,7 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
             placeholder="ФИО"
           />
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <input
             type="text"
             className="formInput"
@@ -153,14 +148,14 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
             value={data.companyName}
             onChange={(e) => setData({ ...data, companyName: e.target.value })}
           />
-        </div>
+        </div> */}
         <div className="form-group">
           <input
-            type="text"
+            type="email"
             className="formInput"
-            placeholder="ИНН"
-            value={data.inn}
-            onChange={(e) => setData({ ...data, inn: e.target.value })}
+            placeholder="E-mail"
+            value={data.email}
+            onChange={(e) => setData({ ...data, email: e.target.value })}
           />
         </div>
         <div className="form-group">
@@ -199,14 +194,14 @@ export const TotalBlock = ({ cart, deliveryData, paymentData }) => {
         <div className="count-block-gray">
           <span className="gray-text">Товары, {totalCount} шт</span>
           <span className="gray-text end">
-            {formatNumberWithSpaces(totalPrice)} Р
+            {formatNumberWithSpaces(totalPrice)} ₽
           </span>
         </div>
       </div>
       <div className="order-block">
         <div className="total-text-block">
           <h2>Итого:</h2>
-          <h2>{formatNumberWithSpaces(totalPrice)} Р</h2>
+          <h2>{formatNumberWithSpaces(totalPrice)} ₽</h2>
         </div>
         <button className="order-choise-btn" onClick={createOrder}>
           Заказать
