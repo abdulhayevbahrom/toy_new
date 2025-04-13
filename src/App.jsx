@@ -14,6 +14,8 @@ import CategoryProductsAll from "./routes/categoryProducts/CategoryProductsAll";
 import { useDispatch } from "react-redux";
 import { getUser } from "./api";
 import { setUserInfo } from "./context/cartSlice";
+import News from "./routes/categoryProducts/News";
+import Search from "./routes/categoryProducts/Search";
 
 function App() {
   const dispatch = useDispatch();
@@ -72,7 +74,8 @@ function App() {
           path="/category-products/:categoryID/"
           element={<CategoryProductsAll />}
         />
-        <Route path="/search" element={<CategoryProducts />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/news/:categoryID" element={<News />} />
         {/* <Route path="/auth" element={<AuthTelegram />} /> */}
       </Routes>
       {/* {!isAuthPage && <Footer />} */}

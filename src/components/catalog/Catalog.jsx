@@ -207,11 +207,51 @@ function Catalog() {
 
   // console.log(catalogs);
 
+  // const catalogs = useMemo(() => {
+  //   return products
+  //     .map((item) => ({
+  //       ...item,
+  //       originalIndex: item.products[0].categoryID,
+  //       products: item.products
+  //         .filter(
+  //           (product) =>
+  //             product.price &&
+  //             parseInt(product.price) !== 0 &&
+  //             product.inStock &&
+  //             parseInt(product.inStock) !== 0
+  //         )
+
+  //         // Faqat categoryName === "Кроссовки" bo‘lsa rang va o‘lcham bo‘yicha birlashtirish
+  //         .reduce((unique, product) => {
+  //           if (product.categoryID === 3) {
+  //             const key = `${product.color}-${product.size}`; // Rang va o‘lcham kombinatsiyasi
+  //             const exists = unique.some((p) => `${p.color}-${p.size}` === key);
+  //             if (!exists) {
+  //               unique.push(product);
+  //             }
+  //           } else {
+  //             unique.push(product); // Agar "Кроссовки" bo‘lmasa, barchasini qo‘shish
+  //           }
+  //           return unique;
+  //         }, [])
+
+  //         // .reduce((unique, product) => {
+  //         //   const key = `${product.color}-${product.size}`; // Deduplicate by color and size
+  //         //   const exists = unique.some((p) => `${p.color}-${p.size}` === key);
+  //         //   if (!exists) {
+  //         //     unique.push(product);
+  //         //   }
+  //         //   return unique;
+  //         // }, [])
+  //         .slice(0, 9),
+  //     }))
+  //     .sort((a, b) => a.categoryName.localeCompare(b.categoryName));
+  // }, [products]);
   const catalogs = useMemo(() => {
     return products
-      .map((item, index) => ({
+      .map((item) => ({
         ...item,
-        originalIndex: index,
+        originalIndex: item.products[0].categoryID,
         products: item.products
           .filter(
             (product) =>
@@ -220,40 +260,43 @@ function Catalog() {
               product.inStock &&
               parseInt(product.inStock) !== 0
           )
-          // Faqat categoryName === "Кроссовки" bo‘lsa rang va o‘lcham bo‘yicha birlashtirish
           .reduce((unique, product) => {
             if (product.categoryID === 3) {
-              const key = `${product.color}-${product.size}`; // Rang va o‘lcham kombinatsiyasi
+              const key = `${product.color}-${product.size}`;
               const exists = unique.some((p) => `${p.color}-${p.size}` === key);
               if (!exists) {
                 unique.push(product);
               }
             } else {
-              unique.push(product); // Agar "Кроссовки" bo‘lmasa, barchasini qo‘shish
+              unique.push(product);
             }
             return unique;
           }, [])
-          // .reduce((unique, product) => {
-          //   const key = `${product.color}-${product.size}`; // Deduplicate by color and size
-          //   const exists = unique.some((p) => `${p.color}-${p.size}` === key);
-          //   if (!exists) {
-          //     unique.push(product);
-          //   }
-          //   return unique;
-          // }, [])
           .slice(0, 9),
       }))
-      .sort((a, b) => a.categoryName.localeCompare(b.categoryName));
+      .sort((a, b) => {
+        // Prioritize 'Новинки' to come first
+        if (a.categoryName === "Новинки" && b.categoryName !== "Новинки") {
+          return -1;
+        }
+        if (b.categoryName === "Новинки" && a.categoryName !== "Новинки") {
+          return 1;
+        }
+        // Otherwise, sort by categoryID
+        return a.originalIndex - b.originalIndex;
+      });
   }, [products]);
 
   return (
     <div className="catalog container">
-      {catalogs.map((item) => (
-        <div key={item.originalIndex} className="catalogItem">
+      {catalogs.map((item, index) => (
+        <div key={index} className="catalogItem">
           <p
-            onClick={() => {
-              nav("/category-products/" + item.products[0].categoryID);
-            }}
+            onClick={() =>
+              item.categoryName === "Новинки"
+                ? nav("/news/" + item.products[0].categoryID)
+                : nav("/category-products/" + item.products[0].categoryID)
+            }
             className="catalogItem_title"
           >
             <span>{item.categoryName}</span>

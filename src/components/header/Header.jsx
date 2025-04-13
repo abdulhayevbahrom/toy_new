@@ -110,6 +110,7 @@ export const Header = () => {
     // Redux store'ga searchQuery ni yangilash
     dispatch(setSearchQuery(e.target.value));
   };
+
   return (
     <>
       <div className="container header" onClick={closeModals}>
@@ -172,7 +173,11 @@ export const Header = () => {
             <div className="menu_item" key={i}>
               <p
                 className="category"
-                onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                onClick={() =>
+                  category.a === "Новинки"
+                    ? nav("/news/" + category?.b[0]?.data[0]?.categoryID)
+                    : setOpenIndex(openIndex === i ? null : i)
+                }
               >
                 {category.a}
                 <img

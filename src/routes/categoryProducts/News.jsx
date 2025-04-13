@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./CategoryProducts.css";
 import { getProducts } from "../../api/index";
 import filterIcon from "../../img/filter.svg";
 import sortIcon from "../../img/sort.svg";
@@ -14,10 +13,9 @@ import SortModal from "./SortModal";
 
 function CategoryProducts() {
   const dispatch = useDispatch();
-  const { categoryID, productTypeID } = useParams();
+  const { categoryID } = useParams();
 
   const searchQuery = useSelector((state) => state.search.searchQuery);
-
   const [products, setProducts] = useState([]);
   const [categoryName, setCategoryName] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -34,7 +32,6 @@ function CategoryProducts() {
   const [sortOrder, setSortOrder] = useState("");
   const cartData = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
-  const isCategoryPage = window.location.pathname.includes("/category/");
 
   // Fetch and process products
   useEffect(() => {
@@ -43,7 +40,7 @@ function CategoryProducts() {
       let allProducts = [];
       let categoryNameTemp = "";
 
-      if (categoryID && productTypeID) {
+      if (categoryID) {
         const categoryProducts = productsData?.find(
           (product, index) => index + 1 === +categoryID
         );
@@ -62,7 +59,8 @@ function CategoryProducts() {
             parseInt(product.price) !== 0 &&
             product.inStock &&
             parseInt(product.inStock) !== 0 &&
-            +product.productTypeID === +productTypeID
+            +product.categoryID === +categoryID &&
+            product.isNew === "true"
         )
         // .reduce((unique, product) => {
         //   const key = `${product.color}-${product.size}`; // Deduplicate by color and size
@@ -91,7 +89,7 @@ function CategoryProducts() {
     };
 
     fetchData();
-  }, [categoryID, productTypeID]);
+  }, [categoryID]);
 
   // Apply additional filters (status, price, article) and search
   useEffect(() => {
@@ -178,19 +176,10 @@ function CategoryProducts() {
   return (
     <div className="container categoryProducts">
       <div className="categoryProducts_title">
-        {isCategoryPage ? (
-          <div onClick={() => navigate(-1)} className="left">
-            <BsChevronLeft />
-            <span>{categoryName}</span>
-          </div>
-        ) : (
-          <div className="flex gap-20 align-end">
-            <h3 className="sub-title">{searchQuery}</h3>
-            <span className="gray-7dfs-14">
-              {filteredProducts?.length} товара
-            </span>
-          </div>
-        )}
+        <div onClick={() => navigate(-1)} className="left">
+          <BsChevronLeft />
+          <span>{categoryName}</span>
+        </div>
         <div className="right">
           <div className="form-filter">
             <button onClick={() => setIsFilterOpen(true)}>

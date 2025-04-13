@@ -61,8 +61,7 @@ function CategoryProducts() {
             product.price &&
             parseInt(product.price) !== 0 &&
             product.inStock &&
-            parseInt(product.inStock) !== 0 &&
-            +product.productTypeID === +productTypeID
+            parseInt(product.inStock) !== 0
         )
         // .reduce((unique, product) => {
         //   const key = `${product.color}-${product.size}`; // Deduplicate by color and size

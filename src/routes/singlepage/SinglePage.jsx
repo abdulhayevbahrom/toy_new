@@ -57,7 +57,9 @@ function SinglePage() {
       setSizes(
         new Set(
           processedProducts
-            .map((item) => item.article.slice(-2))
+            .map(
+              (item) => item.categoryID === categoryID && item.article.slice(-2)
+            )
             .filter((item) => item !== "")
         )
       );
@@ -129,9 +131,12 @@ function SinglePage() {
   return (
     <div className="container singlepage">
       <div className="caption">
+        {/* // "categoryName" // "subCategoryName" // "productTypeName" */}
         <span onClick={() => nav("/category/" + product?.categoryID)}>
           {product?.categoryName}
         </span>
+        <FaChevronRight />
+        <span>{product?.subCategoryName}</span>
         <FaChevronRight />
         <span>{product?.article}</span>
       </div>
@@ -168,24 +173,29 @@ function SinglePage() {
               <span>Остаток: {product?.inStock} шт.</span>
             </div>
           </div>
-          <div className="shoesSizes">
-            <h3 className="sub-title">Размер</h3>
+          {categoryID !== 3 ? (
+            <></>
+          ) : (
+            <div className="shoesSizes">
+              <h3 className="sub-title">Размер</h3>
 
-            <div className="size_containe">
-              {Array.from(sizes).map((size, i) => (
-                <div
-                  key={i}
-                  className={`size-block ${
-                    isSizeBtn === size && "activeSize"
-                  } `}
-                  onClick={() => setIsSizeBtn(size)}
-                >
-                  <span className="size-letter">{size}</span>
-                  <div className="size-description"></div>
-                </div>
-              ))}
+              <div className="size_containe">
+                {Array.from(sizes).map((size, i) => (
+                  <div
+                    key={i}
+                    className={`size-block ${
+                      isSizeBtn === size && "activeSize"
+                    } `}
+                    onClick={() => setIsSizeBtn(size)}
+                  >
+                    <span className="size-letter">{size}</span>
+                    <div className="size-description"></div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
           <div className="singlepageInfoBtns">
             <button
               className={`small-white-button ${description ? "activePr" : ""}`}
@@ -222,28 +232,8 @@ function SinglePage() {
                   label="Размер"
                   value={
                     product?.shoeSizeLength
-                      ? `${product.shoeSizeLength}мм`
-                      : "-"```javascript
-// Add a loading state to handle the initial data fetch
-const [isLoading, setIsLoading] = useState(true);
-
-// Update the useEffect hook to set the loading state
-useEffect(() => {
-  const getById = async () => {
-    const data = await getSingleProduct(id);
-    setProduct(data);
-    setIsLoading(false);
-  };
-  getById();
-}, [id]);
-
-// Add a conditional statement to render a loading message
-if (isLoading) {
-  return <div>Loading...</div>;
-}
-
-// Rest of the code remains the same
-```
+                      ? `${product?.shoeSizeLength}мм`
+                      : "-"
                   }
                 />
               </>
@@ -261,7 +251,6 @@ if (isLoading) {
               </div>
             </div>
           )}
-
           <div className="product_button_block">
             {inCart && (
               <div className="counter-container">
@@ -305,11 +294,14 @@ if (isLoading) {
             )}
 
             <div className="price-block">
-              <h3>{product?.price} Р</h3>
-              <span className="old-price">{product?.discountedPrice} р</span>
-              {product?.personalDiscount && (
-                <span className="percent">{product?.personalDiscount} %</span>
-              )}
+              <h3>{product?.price} ₽</h3>
+              <span className="old-price">{product?.discountedPrice} ₽</span>
+              {/* {product?.personalDiscount && ( */}
+              {/* CHEGIRMA = 1 - price / discountedPrice. */}
+              <span className="percent">
+                {Math.floor(1 - +product?.price / +product?.discountedPrice)} %
+              </span>
+              {/* )} */}
             </div>
           </div>
         </div>
