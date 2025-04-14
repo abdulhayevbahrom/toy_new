@@ -299,7 +299,10 @@ function SinglePage() {
               {/* {product?.personalDiscount && ( */}
               {/* CHEGIRMA = 1 - price / discountedPrice. */}
               <span className="percent">
-                {Math.floor(1 - +product?.price / +product?.discountedPrice)} %
+                {Math.floor(
+                  (1 - +product?.price / +product?.discountedPrice) * 100
+                )}{" "}
+                %
               </span>
               {/* )} */}
             </div>

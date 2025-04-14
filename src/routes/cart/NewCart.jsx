@@ -213,12 +213,17 @@ const NewCart = () => {
                     <div className="cart-item-label">
                       <p>
                         {product.article}
-                        <span className="percent">
-                          {Math.floor(
-                            1 - +product?.price / +product?.discountedPrice
-                          )}{" "}
-                          %
-                        </span>
+                        {product.discountedPrice && (
+                          <span className="percent">
+                            {Math.floor(
+                              (1 -
+                                Number(product?.price) /
+                                  Number(product?.discountedPrice)) *
+                                100
+                            )}{" "}
+                            %
+                          </span>
+                        )}
                       </p>
                       <div className="cart-item-caption">
                         <span>характеристики добавить</span>

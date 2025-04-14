@@ -115,6 +115,7 @@
           }
         }
         .percent {
+          font-size: 14px;
           background-color: #fd3979;
           font-family: Inter;
           font-weight: 500;

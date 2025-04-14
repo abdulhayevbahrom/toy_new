@@ -3,10 +3,10 @@ export const DeliveryInfoBlock = () => {
     <div className="card-block-element delivery-info">
       <h3>Способ доставки</h3>
       <div className="wrapper">
-        <p>Самовывоз по адресу:</p>
+        <p>Доставка по адрес:</p>
         <span>Республика Крым, г. Симферополь, ул. Ленина, д 120</span>
         <p>Стоимость доставки:</p>
-        <span>Бесплатно</span>
+        <span>Pассчитывается индивидуально</span>
       </div>
     </div>
   );
