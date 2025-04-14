@@ -226,7 +226,6 @@ const NewCart = () => {
                         )}
                       </p>
                       <div className="cart-item-caption">
-                        <span>характеристики добавить</span>
                         <span>PM3: {product.inBox} шт</span>
                         <span>Кол-во в упаковке: {product.packageSize} шт</span>
                         <FaTrash

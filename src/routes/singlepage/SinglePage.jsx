@@ -58,7 +58,8 @@ function SinglePage() {
         new Set(
           processedProducts
             .map(
-              (item) => item.categoryID === categoryID && item.article.slice(-2)
+              (item) =>
+                +item.categoryID === +categoryID && item.article.slice(-2)
             )
             .filter((item) => item !== "")
         )
@@ -173,7 +174,7 @@ function SinglePage() {
               <span>Остаток: {product?.inStock} шт.</span>
             </div>
           </div>
-          {categoryID !== 3 ? (
+          {+categoryID !== 3 ? (
             <></>
           ) : (
             <div className="shoesSizes">
@@ -295,16 +296,19 @@ function SinglePage() {
 
             <div className="price-block">
               <h3>{product?.price} ₽</h3>
-              <span className="old-price">{product?.discountedPrice} ₽</span>
-              {/* {product?.personalDiscount && ( */}
-              {/* CHEGIRMA = 1 - price / discountedPrice. */}
-              <span className="percent">
-                {Math.floor(
-                  (1 - +product?.price / +product?.discountedPrice) * 100
-                )}{" "}
-                %
-              </span>
-              {/* )} */}
+              {product?.discountedPrice && (
+                <>
+                  <span className="old-price">
+                    {product?.discountedPrice} ₽
+                  </span>
+                  <span className="percent">
+                    {Math.floor(
+                      (1 - +product?.price / +product?.discountedPrice) * 100
+                    )}{" "}
+                    %
+                  </span>
+                </>
+              )}
             </div>
           </div>
         </div>
