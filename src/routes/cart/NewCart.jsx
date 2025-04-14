@@ -276,7 +276,7 @@ const NewCart = () => {
               ))}
             </div>
           </div>
-          <DeliveryInfoBlock />
+          <DeliveryInfoBlock deliveryData={deliveryData} />
         </div>
         <div className="right-card-block">
           <TotalBlock
