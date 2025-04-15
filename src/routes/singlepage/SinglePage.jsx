@@ -582,50 +582,52 @@ function SinglePage() {
             </div>
           </div>
 
-          <div className="flex gap-15 column">
-            <h3 className="sub-title">Цвета</h3>
-            <div className="colors">
-              {Array.from(colors).map((color, i) => (
-                <div
-                  key={i}
-                  className={`color-block ${
-                    product?.color === color.color && "activeColor"
-                  }`}
-                  onClick={() => {
-                    setProduct(
-                      products.find((item) => item.color === color.color)
-                    );
-                  }}
-                >
-                  <img src={color.img} alt="" />
-                </div>
-              ))}
-            </div>
-
-            <span className="colorText">Цвет: {product?.textColor}</span>
-          </div>
-
           {+categoryID !== 3 ? (
             <></>
           ) : (
-            <div className="shoesSizes">
-              <h3 className="sub-title">Размер</h3>
+            <>
+              <div className="flex gap-15 column">
+                <h3 className="sub-title">Цвета</h3>
+                <div className="colors">
+                  {Array.from(colors).map((color, i) => (
+                    <div
+                      key={i}
+                      className={`color-block ${
+                        product?.color === color.color && "activeColor"
+                      }`}
+                      onClick={() => {
+                        setProduct(
+                          products.find((item) => item.color === color.color)
+                        );
+                      }}
+                    >
+                      <img src={color.img} alt="" />
+                    </div>
+                  ))}
+                </div>
 
-              <div className="size_containe">
-                {Array.from(sizes).map((size, i) => (
-                  <div
-                    key={i}
-                    className={`size-block ${
-                      isSizeBtn === size && "activeSize"
-                    } `}
-                    onClick={() => setIsSizeBtn(size)}
-                  >
-                    <span className="size-letter">{size}</span>
-                    <div className="size-description"></div>
-                  </div>
-                ))}
+                <span className="colorText">Цвет: {product?.textColor}</span>
               </div>
-            </div>
+
+              <div className="shoesSizes">
+                <h3 className="sub-title">Размер</h3>
+
+                <div className="size_containe">
+                  {Array.from(sizes).map((size, i) => (
+                    <div
+                      key={i}
+                      className={`size-block ${
+                        isSizeBtn === size && "activeSize"
+                      } `}
+                      onClick={() => setIsSizeBtn(size)}
+                    >
+                      <span className="size-letter">{size}</span>
+                      <div className="size-description"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
           )}
 
           <div className="singlepageInfoBtns">
