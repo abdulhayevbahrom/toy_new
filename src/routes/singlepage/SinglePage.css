@@ -178,8 +178,35 @@
     border: 2px solid white;
   }
 
+  .activeColor,
   .activePr {
     border: 2px solid #1fb73a;
+  }
+
+  .colors {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .color-block {
+    width: 53px;
+    height: 53px;
+    border-radius: 5px;
+    background-color: white;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+      object-fit: contain;
+    }
+  }
+  .colorText {
+    font-size: 18px;
   }
 
   .description-block {
